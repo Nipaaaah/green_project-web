@@ -1,11 +1,11 @@
 import axios from '../tools/axios'
 
-export const loginUser = async () => {
+export const loginUser = async (email, password) => {
   const formData = new FormData();
-  formData.append('email', 'toto@mail.com');
-  formData.append('password', 'toto');
+  formData.append('email', email);
+  formData.append('password', password);
 
   const result = await axios.post("/login", formData);
 
-  return result;
+  return result.data.token;
 }
