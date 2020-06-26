@@ -6,9 +6,7 @@ export function AuthProvider(props) {
   const [token, setToken] = useState('Banane');
 
   return (
-    <AuthContext.Provider
-      value={{ token, setToken }}
-    >
+    <AuthContext.Provider value={{ token, setToken }}>
       {props.children}
     </AuthContext.Provider>
   )

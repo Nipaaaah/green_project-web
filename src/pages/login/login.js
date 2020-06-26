@@ -5,7 +5,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 
 const Login = props => {
   const { register, handleSubmit, errors } = useForm();
-  const setToken = useContext(AuthContext);
+  let { setToken } = useContext(AuthContext);
 
   const onSubmit = async (formData) => {
     try {
