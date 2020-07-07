@@ -4,21 +4,23 @@ import { loginUser } from '../../services/login.service';
 import { AuthContext } from '../../contexts/AuthContext';
 
 const Login = props => {
+  const [authErrors, setAuthErrors] = useState([]);
   const { register, handleSubmit, errors } = useForm();
   let { setToken } = useContext(AuthContext);
 
   const onSubmit = async (formData) => {
     try {
+      //On appelle la fonction pour se log et on stocke le token dans le Contexte lié à l'authentification
       const res = await loginUser(formData.email, formData.password);
-      console.log(res);
-
       setToken(res);
 
       //Redirige vers l'url '/'
       props.history.push('/');
     }
     catch (error) {
-      console.log(error);
+      if (error.response.status === 401) {
+        setAuthErrors(['Identifiants incorrects'])
+      }
     }
   };
 
@@ -35,13 +37,15 @@ const Login = props => {
 
         {/* Ici on peut afficher les erreur en utilisant errors.*nomDuChamp* */}
         {/* La syntaxe ci-dessous est une condition -> S'il y a un erreur dans le champ email ALORS on affiche le <span> */}
-        {errors.email && <span>This field is required</span>}
+        {errors.email && <span>Ce champ est requis</span>}
 
         <input name="password" defaultValue="toto" ref={register({ required: true })} />
-        {errors.password && <span>This field is required</span>}
+        {errors.password && <span>Ce champ est requis</span>}
 
         <input type="submit" />
       </form>
+
+      {authErrors && <p>{authErrors}</p>}
     </div>
   )
 }
