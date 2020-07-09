@@ -1,9 +1,51 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
+import { useForm } from "react-hook-form";
+import { loginUser } from '../../services/login.service';
+import { AuthContext } from '../../contexts/AuthContext';
 
-function Login() {
+const Login = props => {
+  const [authErrors, setAuthErrors] = useState([]);
+  const { register, handleSubmit, errors } = useForm();
+  let { setToken } = useContext(AuthContext);
+
+  const onSubmit = async (formData) => {
+    try {
+      //On appelle la fonction pour se log et on stocke le token dans le Contexte lié à l'authentification
+      const res = await loginUser(formData.email, formData.password);
+      setToken(res);
+
+      //Redirige vers l'url '/'
+      props.history.push('/');
+    }
+    catch (error) {
+      if (error.response.status === 401) {
+        setAuthErrors(['Identifiants incorrects'])
+      }
+    }
+  };
+
   return (
     <div>
-      <p>Hello Login</p>
+      <p>Login</p>
+
+      {/* handleSubmit permet de faire une vérif avant de submit, c'est une fonction interne à React Hook Form */}
+      <form onSubmit={handleSubmit(onSubmit)}>
+
+        {/* register permet de stocker automatiquement les données qu'on entre dans les inputs, on les récupère dans la méthode onSubmit */}
+        {/* On peut aussi mettre des validators dans la méthode register */}
+        <input name="email" defaultValue="toto@mail.com" ref={register({ required: true })} />
+
+        {/* Ici on peut afficher les erreur en utilisant errors.*nomDuChamp* */}
+        {/* La syntaxe ci-dessous est une condition -> S'il y a un erreur dans le champ email ALORS on affiche le <span> */}
+        {errors.email && <span>Ce champ est requis</span>}
+
+        <input name="password" defaultValue="toto" ref={register({ required: true })} />
+        {errors.password && <span>Ce champ est requis</span>}
+
+        <input type="submit" />
+      </form>
+
+      {authErrors && <p>{authErrors}</p>}
     </div>
   )
 }
