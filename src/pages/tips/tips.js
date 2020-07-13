@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { Row, Container, Col } from 'react-bootstrap';
 
-function Home() {
+function Tips() {
   const { token } = useContext(AuthContext);
 
   return (
@@ -10,7 +10,7 @@ function Home() {
       <Container fluid>
         <Row>
           <Col>
-            Hello Home
+            Hello Tips
           </Col>
         </Row>
       </Container>
@@ -18,4 +18,4 @@ function Home() {
   )
 }
 
-export default Home;
+export default Tips;
