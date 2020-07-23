@@ -3,6 +3,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { Row, Container, Col, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import {getAllQuests, getOneQuest, deleteQuest, addQuest, editQuest} from '../../services/quests.service'
 
 const Quests = props => {
   const { token } = useContext(AuthContext);
