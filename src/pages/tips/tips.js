@@ -1,72 +1,7 @@
-import React, { useState, useEffect, Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Container, Col } from 'react-bootstrap';
 import { GetTips } from '../../services/tips.service'
-
-// export default class Tips extends Component {
-//   constructor(props) {
-//     super(props)
-//     this.state = {
-//       tipList: []
-//     }
-//   }
-
-//   componentDidMount() {
-//     this.getAllTips()
-//   }
-
-//   async getAllTips() {
-//     try {
-//       const res = await GetTips();
-//       setTimeout(() => {
-//         this.setState({ tipList: res.data.tips })
-//       }, 2000)
-//       console.log(this.state.tipList)
-//     }
-//     catch (error) {
-//       console.log(error)
-//     }
-//   }
-
-//   render() {
-//     if (this.state.tipList.length === 0) {
-//       return (
-//         <div>
-//           <Container fluid>
-//             <Row>
-//               <Col>
-//                 Loading...
-//               </Col>
-//             </Row>
-//           </Container>
-//         </div >
-//       )
-//     }
-//     return (
-//       <div>
-//         <Container fluid>
-//           <Row>
-//             <Col>
-//               {this.state.tipList[0].id}
-//             </Col>
-//           </Row>
-//         </Container>
-//       </div >
-//     )
-//   }
-// }
-// const Tips = () => {
-//   const [tipList, setTipList] = useState([]);
-
-//   function getAllTips() {
-//     try {
-//       const res = GetTips();
-//       setTipList(res);
-//       console.log(tipList)
-//     }
-//     catch (error) {
-//       console.log(error)
-//     }
-//   }
+import DataTable from 'react-data-table-component';
 
 
 const Tips = () => {
@@ -76,7 +11,6 @@ const Tips = () => {
   const getAllTips = async () => {
     const res = await GetTips();
     setTipList(res.data.tips);
-
   }
 
   useEffect(() => {
@@ -86,8 +20,35 @@ const Tips = () => {
       }
       , 1000)
   },
-    [tipList],
+    [],
   )
+
+
+  const data = [{ id: 1, title: 'Conan the Barbarian', year: '1982' }];
+
+  const columns = [
+    {
+      name: 'Id',
+      selector: 'id',
+      sortable: true,
+    },
+    {
+      name: 'Name',
+      selector: 'name',
+      sortable: true,
+    },
+    {
+      name: 'Description',
+      selector: 'desc',
+      sortable: true,
+    },
+    {
+      name: 'Options',
+      selector: 'year',
+      sortable: true,
+      right: true,
+    },
+  ];
 
   if (tipList.length === 0) {
     return (
@@ -106,11 +67,11 @@ const Tips = () => {
     return (
       <div>
         <Container fluid>
-          <Row>
-            <Col>
-              {tipList[0].name}
-            </Col>
-          </Row>
+          <DataTable
+            title="Tip List"
+            columns={columns}
+            data={tipList}
+          />
         </Container>
       </div >
     )
