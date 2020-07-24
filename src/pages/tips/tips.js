@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Container, Col } from 'react-bootstrap';
+import { Row, Container, Col, Button } from 'react-bootstrap';
 import { GetTips } from '../../services/tips.service'
-import DataTable from 'react-data-table-component';
+import DataTable, { defaultThemes } from 'react-data-table-component';
 
 
 const Tips = () => {
@@ -23,8 +23,13 @@ const Tips = () => {
     [],
   )
 
+  const edit = () => {
+    console.log('Edit')
+  }
 
-  const data = [{ id: 1, title: 'Conan the Barbarian', year: '1982' }];
+  const del = () => {
+    console.log('Delete')
+  }
 
   const columns = [
     {
@@ -43,9 +48,19 @@ const Tips = () => {
       sortable: true,
     },
     {
-      name: 'Options',
-      selector: 'year',
-      sortable: true,
+      name: 'Edit',
+      cell: () => <Button onClick={edit}>Edit</Button>,
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
+      right: true,
+    },
+    {
+      name: 'Delete',
+      cell: () => <Button onClick={del}>Delete</Button>,
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
       right: true,
     },
   ];
