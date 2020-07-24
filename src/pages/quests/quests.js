@@ -3,9 +3,22 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { Row, Container, Col, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import {getAllQuests, getOneQuest, deleteQuest, addQuest, editQuest} from '../../services/quests.service'
+import { getAllQuests, getOneQuest, deleteQuest, addQuest, editQuest } from '../../services/quests.service'
+
+
+async function allQuests() {
+  console.log('yo');
+  const response = await getAllQuests()
+  const quests = response.data.quests;
+  console.log(quests);
+};
 
 const Quests = props => {
+
+  const data = [{ 'name': 'First', 'desc': 'blabla', 'expAmount': 20, 'minLevel': 2, 'timeForQuest': 'r', 'endDate': '2020' }, { 'name': 'Two', 'desc': 'blabla', 'expAmount': 20, 'minLevel': 2, 'timeForQuest': 'r', 'endDate': '2020' }, { 'name': 'Three', 'desc': 'blabla', 'expAmount': 20, 'minLevel': 2, 'timeForQuest': 'r', 'endDate': '2020' }]
+
+  allQuests();
+
   const { token } = useContext(AuthContext);
 
   const goToAddQuest = () => {
@@ -40,18 +53,20 @@ const Quests = props => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Quête 1</td>
-                  <td>La warrior</td>
-                  <td>Today</td>
-                  <td>Tomorrow</td>
-                  <td>1 jour</td>
-                  <td>1</td>
-                  <td>20</td>
-                  <td><Button>Activer</Button></td>
-                  <td><FontAwesomeIcon icon={faEdit} /></td>
-                  <td><FontAwesomeIcon icon={faTrash} /></td>
-                </tr>
+                {data.map((d, index) => (
+                  <tr key={index}>
+                    <td>{d.name}</td>
+                    <td>{d.desc}</td>
+                    <td>{d.endDate}</td>
+                    <td>{d.endDate}</td>
+                    <td>{d.timeForQuest}</td>
+                    <td>{d.minLevel}</td>
+                    <td>{d.expAmount}</td>
+                    <td><Button>Activer</Button></td>
+                    <td><FontAwesomeIcon icon={faEdit} /></td>
+                    <td><FontAwesomeIcon icon={faTrash} /></td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </Col>
