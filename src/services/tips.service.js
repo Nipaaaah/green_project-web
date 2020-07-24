@@ -1,16 +1,42 @@
 import axios from '../tools/axios'
 
+
+const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9sb2dpbiIsImlhdCI6MTU5NTU5NzY5OSwiZXhwIjoxNTk1NjAxMjk5LCJuYmYiOjE1OTU1OTc2OTksImp0aSI6IktPN2xsU1dvQTVMNXFZV0QiLCJzdWIiOjEsInBydiI6IjFiMmI3MzE0NzFhMjA0ZTRkYWY1MTRjYmJlYzNjZjhhNzk4OGU0YjMifQ.HQ_7Y9kGlUoY84FzfsVWu8IaBQkRtUGNuZ3h68xr7_k'
+const config = {
+  headers: { Authorization: `Bearer ${token}` }
+};
+
 const GetTips = async () => {
-
-  const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9sb2dpbiIsImlhdCI6MTU5NTU4MDg5MiwiZXhwIjoxNTk1NTg0NDkyLCJuYmYiOjE1OTU1ODA4OTIsImp0aSI6IlI5Y0Y2enhTSWFGc1dXbmgiLCJzdWIiOjEsInBydiI6IjFiMmI3MzE0NzFhMjA0ZTRkYWY1MTRjYmJlYzNjZjhhNzk4OGU0YjMifQ.4VPMmdXP9a1cKTI8WgCoziZ93aMBW15ha3r56fReZY8'
-  const config = {
-    headers: { Authorization: `Bearer ${token}` }
-  };
-
   let res = await axios.get("/allTips", config);
+  console.log(res.data.tips)
   return res;
 }
 
+const GetTip = async (id) => {
+  let res = await axios.get(`/tip/${id}`, config);
+  return res;
+}
+
+const EditTip = async (id) => {
+  let res = await axios.post(`/editTip/${id}`, config);
+  return res;
+}
+
+const DeleteTip = async (id) => {
+  let res = await axios.get(`/deleteTip/${id}`, config);
+  return res;
+}
+
+const AddTip = async (id) => {
+  let res = await axios.post(`/addTip/${id}`, config);
+  return res;
+}
+
+
 export {
-  GetTips
+  GetTips,
+  GetTip,
+  EditTip,
+  DeleteTip,
+  AddTip
 }
