@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { Row, Container, Col, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,18 +6,51 @@ import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { getAllQuests, getOneQuest, deleteQuest, addQuest, editQuest } from '../../services/quests.service'
 
 
-async function allQuests() {
-  console.log('yo');
-  const response = await getAllQuests()
-  const quests = response.data.quests;
-  console.log(quests);
-};
+// async function allQuests() {
+//   console.log('yo');
+//   const response = await getAllQuests()
+//   const quests = response.data.quests;
+//   console.log(quests);
+// };
+
+// const Tips = () => {
+
+//   const [tipList, setTipList] = useState([])
+
+//   const getAllTips = async () => {
+//     const res = await GetTips();
+//     setTipList(res.data.tips);
+//   }
+
+//   useEffect(() => {
+//     setTimeout(
+//       () => {
+//         getAllTips();
+//       }
+//       , 1000)
+//   },
+//     [],
+//   )
+
 
 const Quests = props => {
 
   const data = [{ 'name': 'First', 'desc': 'blabla', 'expAmount': 20, 'minLevel': 2, 'timeForQuest': 'r', 'endDate': '2020' }, { 'name': 'Two', 'desc': 'blabla', 'expAmount': 20, 'minLevel': 2, 'timeForQuest': 'r', 'endDate': '2020' }, { 'name': 'Three', 'desc': 'blabla', 'expAmount': 20, 'minLevel': 2, 'timeForQuest': 'r', 'endDate': '2020' }]
 
-  allQuests();
+  const [questList, setQuestList] = useState([])
+
+  const allQuests = async () => {
+    const response = await getAllQuests();
+    setQuestList(response.data.quests);
+  }
+
+  useEffect(() => {
+    allQuests();
+  }
+  );
+  
+
+  // allQuests();
 
   const { token } = useContext(AuthContext);
 
