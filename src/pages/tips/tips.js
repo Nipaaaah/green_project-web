@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Container, Col, Button } from 'react-bootstrap';
-import { GetTips } from '../../services/tips.service'
-import DataTable, { defaultThemes } from 'react-data-table-component';
+import { GetTips, GetTip, AddTip, EditTip, DeleteTip } from '../../services/tips.service'
+import DataTable from 'react-data-table-component';
 import styled from 'styled-components';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Tips = () => {
@@ -15,6 +15,21 @@ const Tips = () => {
     setTipList(res.data.tips);
   }
 
+  const getTip = async () => {
+    const test = await GetTip(1)
+  }
+
+  const edit = async (id) => {
+    console.log(id)
+    // const test = await EditTip(1)
+  }
+
+  const del = (id) => {
+    console.log(id)
+    // const test = await DeleteTip(1)
+  }
+
+
   useEffect(() => {
     setTimeout(
       () => {
@@ -25,18 +40,14 @@ const Tips = () => {
     [],
   )
 
-  const edit = () => {
-    console.log('Edit')
+  const add = () => {
+    const test = AddTip()
   }
 
-  const del = () => {
-    console.log('Delete')
-  }
-
-  const FilterComponent = ({ filterText, onFilter, onClear }) => (
+  const FilterComponent = ({ filterText, onFilter }) => (
     <>
+      <Button onClick={add}><FontAwesomeIcon icon={faPlus} /></Button>
       <TextField id="search" type="text" placeholder="Filter By Name" value={filterText} onChange={onFilter} />
-      <ClearButton type="button" onClick={onClear}>X</ClearButton>
     </>
   );
 
@@ -65,7 +76,6 @@ const Tips = () => {
         paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
-        selectableRows
         persistTableHead
       />
     );
@@ -89,7 +99,7 @@ const Tips = () => {
     },
     {
       name: 'Edit',
-      cell: () => <FontAwesomeIcon onClick={edit} icon={faEdit} />,
+      cell: (row) => <FontAwesomeIcon onClick={(e) => edit(row.id)} icon={faEdit} />,
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
@@ -97,7 +107,15 @@ const Tips = () => {
     },
     {
       name: 'Delete',
-      cell: () => <FontAwesomeIcon icon={faTrash} onClick={del} />,
+      cell: (row) => <FontAwesomeIcon icon={faTrash} onClick={ (e) => del(row.id)} />,
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
+      right: true,
+    },
+    {
+      name: 'Status',
+      cell: () => <Button>Change</Button>,
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
@@ -129,19 +147,6 @@ const Tips = () => {
   }
 }
 
-
-const ClearButton = styled(Button)`
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-  height: 34px;
-  width: 32px;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 
 const TextField = styled.input`
   height: 32px;
