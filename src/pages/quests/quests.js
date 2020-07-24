@@ -35,7 +35,7 @@ import { getAllQuests, getOneQuest, deleteQuest, addQuest, editQuest } from '../
 
 const Quests = props => {
 
-  const data = [{ 'name': 'First', 'desc': 'blabla', 'expAmount': 20, 'minLevel': 2, 'timeForQuest': 'r', 'endDate': '2020' }, { 'name': 'Two', 'desc': 'blabla', 'expAmount': 20, 'minLevel': 2, 'timeForQuest': 'r', 'endDate': '2020' }, { 'name': 'Three', 'desc': 'blabla', 'expAmount': 20, 'minLevel': 2, 'timeForQuest': 'r', 'endDate': '2020' }]
+  //const data = [{ 'name': 'First', 'desc': 'blabla', 'expAmount': 20, 'minLevel': 2, 'timeForQuest': 'r', 'endDate': '2020' }, { 'name': 'Two', 'desc': 'blabla', 'expAmount': 20, 'minLevel': 2, 'timeForQuest': 'r', 'endDate': '2020' }, { 'name': 'Three', 'desc': 'blabla', 'expAmount': 20, 'minLevel': 2, 'timeForQuest': 'r', 'endDate': '2020' }]
 
   const [questList, setQuestList] = useState([])
 
@@ -86,7 +86,7 @@ const Quests = props => {
                 </tr>
               </thead>
               <tbody>
-                {data.map((d, index) => (
+                {questList.map((d, index) => (
                   <tr key={index}>
                     <td>{d.name}</td>
                     <td>{d.desc}</td>
