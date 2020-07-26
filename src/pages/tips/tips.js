@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const Tips = () => {
+const Tips = props => {
 
   const [tipList, setTipList] = useState([])
 
@@ -24,9 +24,10 @@ const Tips = () => {
     // const test = await EditTip(1)
   }
 
-  const del = (id) => {
+  const del = async (id) => {
     console.log(id)
-    // const test = await DeleteTip(1)
+    const test = await DeleteTip(id)
+    console.log(test)
   }
 
 
@@ -40,13 +41,13 @@ const Tips = () => {
     [],
   )
 
-  const add = () => {
-    const test = AddTip()
+  const goToAddTip = () => {
+      props.history.push('tips/add');
   }
 
   const FilterComponent = ({ filterText, onFilter }) => (
     <>
-      <Button onClick={add}><FontAwesomeIcon icon={faPlus} /></Button>
+      <Button onClick={goToAddTip}><FontAwesomeIcon icon={faPlus} /></Button>
       <TextField id="search" type="text" placeholder="Filter By Name" value={filterText} onChange={onFilter} />
     </>
   );
@@ -107,7 +108,7 @@ const Tips = () => {
     },
     {
       name: 'Delete',
-      cell: (row) => <FontAwesomeIcon icon={faTrash} onClick={ (e) => del(row.id)} />,
+      cell: (row) => <FontAwesomeIcon icon={faTrash} onClick={(e) => del(row.id)} />,
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
