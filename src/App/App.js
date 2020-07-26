@@ -6,6 +6,8 @@ import Login from '../pages/login/login'
 import Tips from '../pages/tips/tips';
 import Quests from '../pages/quests/quests';
 import AddQuest from '../pages/quests/add/quests-add';
+import AddTipPage from '../pages/tips/add/tips-add'
+
 import './App.css';
 
 function App() {
@@ -30,6 +32,7 @@ function App() {
         <Route exact path="/quests" component={Quests} />
         <Route exact path="/quests/add" component={AddQuest} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/tips/add" component={AddTipPage} />
       </BrowserRouter>
     </div>
   );
