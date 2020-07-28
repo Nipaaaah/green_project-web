@@ -1,5 +1,4 @@
-import React, { useContext, useState } from 'react';
-import { AuthContext } from '../../../contexts/AuthContext';
+import React, { useState } from 'react';
 import { Form, Container } from 'react-bootstrap';
 import { useForm } from "react-hook-form";
 import { AddTip } from '../../../services/tips.service';

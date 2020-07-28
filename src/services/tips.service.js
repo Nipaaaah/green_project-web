@@ -1,7 +1,7 @@
 import axios from '../tools/axios'
 
 
-const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9sb2dpbiIsImlhdCI6MTU5NTc2OTczMywiZXhwIjoxNTk1NzczMzMzLCJuYmYiOjE1OTU3Njk3MzMsImp0aSI6IkswZjlvUmFldVI3bXp2VUsiLCJzdWIiOjEsInBydiI6IjFiMmI3MzE0NzFhMjA0ZTRkYWY1MTRjYmJlYzNjZjhhNzk4OGU0YjMifQ.S12BetSPJVqNCqxGJQG8pSs81pX8lLGt6zRAKc9kTzc'
+const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9sb2dpbiIsImlhdCI6MTU5NTc4NDk5NywiZXhwIjoxNTk1Nzg4NTk3LCJuYmYiOjE1OTU3ODQ5OTcsImp0aSI6IktTVU1pcFNuT3k0Zm1XRXAiLCJzdWIiOjEsInBydiI6IjFiMmI3MzE0NzFhMjA0ZTRkYWY1MTRjYmJlYzNjZjhhNzk4OGU0YjMifQ.SL0hNZMdT3Why5QPFGDB0G38kANGkRNALaLZIfxv4kQ'
 const config = {
   headers: { Authorization: `Bearer ${token}` }
 };
@@ -17,13 +17,14 @@ const GetTip = async (id) => {
   return res;
 }
 
-const EditTip = async (id) => {
-  let res = await axios.post(`/editTip/${id}`, config);
-  return res;
+const EditTip = async (formData) => {
+  console.log(formData)
+  // let res = await axios.post(`/editTip/${id}`, config);
+  // return res;
 }
 
+
 const DeleteTip = async (id) => {
-  console.log(id)
   let res = await axios.get(`/deleteTip/${id}`, config);
   return res;
 }

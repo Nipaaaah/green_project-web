@@ -7,6 +7,8 @@ import Tips from '../pages/tips/tips';
 import Quests from '../pages/quests/quests';
 import AddQuest from '../pages/quests/add/quests-add';
 import AddTipPage from '../pages/tips/add/tips-add'
+import EditTipPage from '../pages/tips/edit/tips-edit'
+
 
 import './App.css';
 
@@ -33,6 +35,8 @@ function App() {
         <Route exact path="/quests/add" component={AddQuest} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/tips/add" component={AddTipPage} />
+        <Route exact path="/tips/edit" component={EditTipPage} />
+
       </BrowserRouter>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Container, Col, Button } from 'react-bootstrap';
-import { GetTips, GetTip, AddTip, EditTip, DeleteTip } from '../../services/tips.service'
+import { GetTips, GetTip, DeleteTip } from '../../services/tips.service'
 import DataTable from 'react-data-table-component';
 import styled from 'styled-components';
 import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -9,27 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const Tips = props => {
 
   const [tipList, setTipList] = useState([])
-
-  const getAllTips = async () => {
-    const res = await GetTips();
-    setTipList(res.data.tips);
-  }
-
-  const getTip = async () => {
-    const test = await GetTip(1)
-  }
-
-  const edit = async (id) => {
-    console.log(id)
-    // const test = await EditTip(1)
-  }
-
-  const del = async (id) => {
-    console.log(id)
-    const test = await DeleteTip(id)
-    console.log(test)
-  }
-
+  const [error, setError] = useState('')
 
   useEffect(() => {
     setTimeout(
@@ -41,8 +21,32 @@ const Tips = props => {
     [],
   )
 
+  const getAllTips = async () => {
+    const res = await GetTips();
+    setTipList(res.data.tips);
+  }
+
+  const gotToEditTip = async (id) => {
+    props.history.push('tips/edit');
+
+  }
+
+  const del = async (id) => {
+    await DeleteTip(id)
+      .then(() => {
+        let res = tipList.filter(list => list.id !== id)
+        console.log(res)
+        setTipList(res)
+      }, (error) => {
+        console.log(error.response.data);
+        setError(error.response.data.message)
+      });
+  }
+
+
+
   const goToAddTip = () => {
-      props.history.push('tips/add');
+    props.history.push('tips/add');
   }
 
   const FilterComponent = ({ filterText, onFilter }) => (
@@ -100,7 +104,7 @@ const Tips = props => {
     },
     {
       name: 'Edit',
-      cell: (row) => <FontAwesomeIcon onClick={(e) => edit(row.id)} icon={faEdit} />,
+      cell: (row) => <FontAwesomeIcon onClick={(e) => gotToEditTip(row)} icon={faEdit} />,
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
