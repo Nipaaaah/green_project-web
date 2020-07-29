@@ -26,9 +26,13 @@ const Tips = props => {
     setTipList(res.data.tips);
   }
 
-  const gotToEditTip = async (id) => {
-    props.history.push('tips/edit');
+  const gotToEditTip = async (data) => {
+    props.history.push({
+      pathname: '/tips/edit',
+      state: { data: data }
+    });
 
+   
   }
 
   const del = async (id) => {
