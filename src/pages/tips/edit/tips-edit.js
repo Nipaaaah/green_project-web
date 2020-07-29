@@ -10,10 +10,8 @@ function EditTipPage(props) {
   const onSubmit = async (formData) => {
     await EditTip(props.location.state.data.id, formData)
       .then(() => {
-        // props.history.push('/tips')
-        console.log('OK')
+        props.history.push('/tips')
       }, (error) => {
-        console.log(error.response.data);
         setError(error.response.data.message)
       });
   };
