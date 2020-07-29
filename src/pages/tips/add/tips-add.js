@@ -12,7 +12,6 @@ function AddTipPage(props) {
       .then(() => {
         props.history.push('/tips')
       }, (error) => {
-        console.log(error.response.data);
         setError(error.response.data.message)
       });
   };
