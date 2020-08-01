@@ -1,6 +1,6 @@
 import axios from '../tools/axios'
 
-const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9sb2dpbiIsImlhdCI6MTU5NjAxNzY1MywiZXhwIjoxNTk2MDIxMjUzLCJuYmYiOjE1OTYwMTc2NTMsImp0aSI6IlpZOUdoU2VjaXB3eVE3MGMiLCJzdWIiOjEsInBydiI6IjFiMmI3MzE0NzFhMjA0ZTRkYWY1MTRjYmJlYzNjZjhhNzk4OGU0YjMifQ.od-9BD4GwSBoEree2207X-rNuonhufr1g3mBuWrAdlg'
+const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9sb2dpbiIsImlhdCI6MTU5NjI2OTEwMSwiZXhwIjoxNTk2MjcyNzAxLCJuYmYiOjE1OTYyNjkxMDEsImp0aSI6IjVWQ2V1Q2d0TXJYMUh3MnAiLCJzdWIiOjEsInBydiI6IjFiMmI3MzE0NzFhMjA0ZTRkYWY1MTRjYmJlYzNjZjhhNzk4OGU0YjMifQ.nuBr5BGgXllRE4esthvn_S0-q7agKNcZXH1muycSytI'
 const config = {
   headers: { Authorization: `Bearer ${token}` }
 };
@@ -16,6 +16,7 @@ const GetTip = async (id) => {
 }
 
 const EditTip = async (id, formData) => {
+  console.log(formData);
   let res = await axios.post(`/editTip/${id}`, formData, config);
   return res;
 }

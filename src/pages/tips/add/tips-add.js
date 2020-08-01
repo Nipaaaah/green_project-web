@@ -10,7 +10,10 @@ function AddTipPage(props) {
   const onSubmit = async (formData) => {
     await AddTip(formData)
       .then(() => {
-        props.history.push('/tips')
+        props.history.push({
+          pathname: '/tips',
+          state: { msg: "Tip was successfully added" }
+        });
       }, (error) => {
         setError(error.response.data.message)
       });

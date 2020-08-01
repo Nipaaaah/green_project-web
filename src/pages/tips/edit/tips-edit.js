@@ -10,7 +10,10 @@ function EditTipPage(props) {
   const onSubmit = async (formData) => {
     await EditTip(props.location.state.data.id, formData)
       .then(() => {
-        props.history.push('/tips')
+        props.history.push({
+          pathname: '/tips',
+          state: { msg: "Tip was successfully edited" }
+        });
       }, (error) => {
         setError(error.response.data.message)
       });
@@ -21,11 +24,11 @@ function EditTipPage(props) {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <label>
           Name :
-        <input placeholder={props.location.state.data.name} type="text" name="name" defaultValue={props.location.state.data.name} ref={register({ required: true })}/>
+        <input placeholder={props.location.state.data.name} type="text" name="name" defaultValue={props.location.state.data.name} ref={register({ required: true })} />
         </label>
         <label>
           Description :
-        <input placeholder={props.location.state.data.desc} type="text" name="desc" defaultValue={props.location.state.data.desc} ref={register}/>
+        <input placeholder={props.location.state.data.desc} type="text" name="desc" defaultValue={props.location.state.data.desc} ref={register} />
         </label>
         <input type="submit" value="Edit" />
       </Form>

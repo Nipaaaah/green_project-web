@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Container, Col, Button } from 'react-bootstrap';
-import { GetTips, GetTip, DeleteTip } from '../../services/tips.service'
-import DataTable from 'react-data-table-component';
-import styled from 'styled-components';
-import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { GetTips, DeleteTip, EditTip } from '../../services/tips.service'
+import { BasicTable } from '../../components/Table'
 
 const Tips = props => {
-
-  const [tipList, setTipList] = useState([])
-  const [error, setError] = useState('')
+  const [tipList, setTipList] = useState([]);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     setTimeout(
@@ -24,6 +22,7 @@ const Tips = props => {
   const getAllTips = async () => {
     const res = await GetTips();
     setTipList(res.data.tips);
+    console.log(res.data.tips)
   }
 
   const gotToEditTip = async (data) => {
@@ -31,64 +30,53 @@ const Tips = props => {
       pathname: '/tips/edit',
       state: { data: data }
     });
-
-   
   }
 
   const del = async (id) => {
     await DeleteTip(id)
       .then(() => {
-        let res = tipList.filter(list => list.id !== id)
-        console.log(res)
-        setTipList(res)
+        let res = tipList.filter(list => list.id !== id);
+        setTipList(res);
       }, (error) => {
-        console.log(error.response.data);
-        setError(error.response.data.message)
+        setError(error.response.data.message);
       });
   }
-
-
 
   const goToAddTip = () => {
     props.history.push('tips/add');
   }
 
-  const FilterComponent = ({ filterText, onFilter }) => (
-    <>
-      <Button onClick={goToAddTip}><FontAwesomeIcon icon={faPlus} /></Button>
-      <TextField id="search" type="text" placeholder="Filter By Name" value={filterText} onChange={onFilter} />
-    </>
-  );
+  const changeStatus = async (row) => {
+    let status;
+    if (row.tipStatus === 1) {
+      status = 0;
+    }
+    else {
+      status = 1;
+    }
+    let data = {
+      id: row.id,
+      name: row.name,
+      desc: row.desc,
+      tipStatus: status
+    }
+    await EditTip(row.id, data)
+      .then((res) => {
+        console.log(tipList)
+        // let index = tipList.indexOf(tipList.find(elem => elem.id === row.id))
 
-  const BasicTable = () => {
-    const [filterText, setFilterText] = React.useState('');
-    const [resetPaginationToggle, setResetPaginationToggle] = React.useState(false);
-    const filteredItems = tipList.filter(item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase()));
-
-    const subHeaderComponentMemo = React.useMemo(() => {
-      const handleClear = () => {
-        if (filterText) {
-          setResetPaginationToggle(!resetPaginationToggle);
-          setFilterText('');
-        }
-      };
-
-      return <FilterComponent onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />;
-    }, [filterText, resetPaginationToggle]);
-
-    return (
-      <DataTable
-        title="Tip List"
-        columns={columns}
-        data={filteredItems}
-        pagination
-        paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
-        subHeader
-        subHeaderComponent={subHeaderComponentMemo}
-        persistTableHead
-      />
-    );
-  };
+        // let newList = tipList;
+        // newList[index].tipStatus = status;
+        // tipList.map(el => (el.id === row.id ? Object.assign();
+        // console.log(newList);
+        // setTipList(newList);
+        // console.log(tipList);
+        // setTipList(tipList => (tipList.indexOf(tipList.find(elem => elem.id === row.id)).status = status, tipList));
+        // console.log(tipList);
+      }, (error) => {
+        setError(error.response.data.message)
+      });
+  }
 
   const columns = [
     {
@@ -124,7 +112,12 @@ const Tips = props => {
     },
     {
       name: 'Status',
-      cell: () => <Button>Change</Button>,
+      selector: 'tipStatus',
+      right: true,
+    },
+    {
+      name: 'Status',
+      cell: (row) => <Button onClick={(e) => changeStatus(row)} >Change</Button>,
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
@@ -149,28 +142,13 @@ const Tips = props => {
     return (
       <div>
         <Container fluid>
-          <BasicTable></BasicTable>
+          <Button onClick={goToAddTip}><FontAwesomeIcon icon={faPlus} /> Add</Button>
+          <BasicTable title="Tips List" columns={columns} array={tipList}></BasicTable>
+          {error}
         </Container>
       </div >
     )
   }
 }
-
-
-const TextField = styled.input`
-  height: 32px;
-  width: 200px;
-  border-radius: 3px;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  border: 1px solid #e5e5e5;
-  padding: 0 32px 0 16px;
-
-  &:hover {
-    cursor: pointer;
-  }
-`;
 
 export default Tips;
