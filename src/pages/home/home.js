@@ -1,9 +1,7 @@
-import React, { useContext } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
+import React from 'react';
 import { Row, Container, Col } from 'react-bootstrap';
 
 function Home() {
-  const { token } = useContext(AuthContext);
 
   return (
     <div>

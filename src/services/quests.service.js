@@ -17,10 +17,14 @@ export const addQuest = async (name, desc, expAmount, minLevel, timeForQuest, en
     formData.append('name', name);
     formData.append('desc', desc);
     formData.append('expAmount', expAmount);
-    formData.append('minLevel', minLevel);
+    formData.append('minLevel', minLevel)
     formData.append('timeForQuest', timeForQuest);
     formData.append('endDate', endDate);
-    return await axios.post("addQuest", formData)
+
+    const res = await axios.post('/addQuest', formData);
+    console.log(res);
+
+    return res;
 }
 
 export const editQuest = async (questId, name, desc, expAmount, minLevel, timeForQuest, endDate) => {

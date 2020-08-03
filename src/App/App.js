@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef, useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Navbar, Nav } from 'react-bootstrap';
 import Home from '../pages/home/home';

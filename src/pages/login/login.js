@@ -31,13 +31,13 @@ const Login = props => {
 
         {/* register permet de stocker automatiquement les données qu'on entre dans les inputs, on les récupère dans la méthode onSubmit */}
         {/* On peut aussi mettre des validators dans la méthode register */}
-        <input name="email" defaultValue="toto@mail.com" ref={register({ required: true })} />
+        <input name="email" defaultValue="test@mail.com" ref={register({ required: true })} />
 
         {/* Ici on peut afficher les erreur en utilisant errors.*nomDuChamp* */}
         {/* La syntaxe ci-dessous est une condition -> S'il y a un erreur dans le champ email ALORS on affiche le <span> */}
         {errors.email && <span>Ce champ est requis</span>}
 
-        <input name="password" defaultValue="toto" ref={register({ required: true })} />
+        <input name="password" defaultValue="password" ref={register({ required: true })} />
         {errors.password && <span>Ce champ est requis</span>}
 
         <input type="submit" />
