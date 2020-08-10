@@ -2,10 +2,8 @@ import DataTable from 'react-data-table-component';
 import React from 'react';
 import styled from 'styled-components';
 
-const FilterComponent = ({ props, filterText, onFilter }) => (
-    <>
-        <TextField id="search" type="text" placeholder="Filter By Name" value={filterText} onChange={onFilter} />
-    </>
+const FilterComponent = ({ filterText, onFilter }) => (
+    <TextField id="search" type="text" placeholder="Filter By Name" value={filterText} onChange={onFilter} />
 );
 
 const BasicTable = props => {
