@@ -15,9 +15,7 @@ const Tips = props => {
         getAllTips();
       }
       , 1000)
-  },
-    [],
-  )
+  }, [])
 
   const getAllTips = async () => {
     const res = await GetTips();

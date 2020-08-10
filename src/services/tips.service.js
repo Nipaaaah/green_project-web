@@ -16,7 +16,6 @@ const GetTip = async (id) => {
 }
 
 const EditTip = async (id, formData) => {
-  console.log(formData);
   let res = await axios.post(`/editTip/${id}`, formData, config);
   return res;
 }
@@ -30,7 +29,6 @@ const AddTip = async (formData) => {
   let res = await axios.post(`/addTip`, formData, config)
   return res;
 }
-
 
 export {
   GetTips,
