@@ -62,17 +62,14 @@ const Tips = props => {
     }
     await EditTip(row.id, data)
       .then((res) => {
-        console.log(tipList)
-        // let index = tipList.indexOf(tipList.find(elem => elem.id === row.id))
-
-        // let newList = tipList;
-        // newList[index].tipStatus = status;
-        // tipList.map(el => (el.id === row.id ? Object.assign();
-        // console.log(newList);
-        // setTipList(newList);
-        // console.log(tipList);
-        // setTipList(tipList => (tipList.indexOf(tipList.find(elem => elem.id === row.id)).status = status, tipList));
-        // console.log(tipList);
+        let newTipList = tipList.map((item) => {
+          if (item.id === row.id) {
+            return data;
+          }
+          else
+            return item;
+        })
+        setTipList(newTipList);
       }, (error) => {
         setError(error.response.data.message)
       });
