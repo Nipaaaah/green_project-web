@@ -4,23 +4,29 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { GetTips, DeleteTip, EditTip } from '../../services/tips.service'
 import { BasicTable } from '../../components/Table'
+import { ResultModal } from '../../components/ModalReturn'
 
 const Tips = props => {
   const [tipList, setTipList] = useState([]);
-  const [error, setError] = useState('');
+  const [modalShow, setModalShow] = useState(false);
+  const [resultMessage, setResultMessage] = useState('');
 
   useEffect(() => {
     setTimeout(
       () => {
         getAllTips();
-      }
-      , 1000)
+        if (props.location.state !== undefined) {
+          if (props.location.state.msg !== undefined) {
+            displayStatus(props.location.state.msg);
+            window.history.replaceState(null, null, "/");
+          }
+        }
+      }, 1000)
   }, [])
 
   const getAllTips = async () => {
     const res = await GetTips();
     setTipList(res.data.tips);
-    console.log(res.data.tips)
   }
 
   const gotToEditTip = async (data) => {
@@ -32,11 +38,12 @@ const Tips = props => {
 
   const del = async (id) => {
     await DeleteTip(id)
-      .then(() => {
-        let res = tipList.filter(list => list.id !== id);
-        setTipList(res);
+      .then((res) => {
+        let list = tipList.filter(list => list.id !== id);
+        setTipList(list);
+        displayStatus(res.data.msg);
       }, (error) => {
-        setError(error.response.data.message);
+        displayStatus(error);
       });
   }
 
@@ -68,9 +75,18 @@ const Tips = props => {
             return item;
         })
         setTipList(newTipList);
+        displayStatus(res.data.msg);
       }, (error) => {
-        setError(error.response.data.message)
+        displayStatus(error.response.data.message)
       });
+  }
+
+  const displayStatus = (msg) => {
+    setResultMessage(msg);
+    setModalShow(true);
+    setTimeout(() => {
+      setModalShow(false);
+    }, 3000);
   }
 
   const columns = [
@@ -109,6 +125,7 @@ const Tips = props => {
       name: 'Status',
       selector: 'tipStatus',
       right: true,
+      sortable: true,
     },
     {
       name: 'Status',
@@ -137,9 +154,14 @@ const Tips = props => {
     return (
       <div>
         <Container fluid>
+          <ResultModal
+            msg={resultMessage}
+            show={modalShow}
+            animation={false}
+            onHide={() => setModalShow(false)}
+          />
           <Button onClick={goToAddTip}><FontAwesomeIcon icon={faPlus} /> Add</Button>
           <BasicTable title="Tips List" columns={columns} array={tipList}></BasicTable>
-          {error}
         </Container>
       </div >
     )

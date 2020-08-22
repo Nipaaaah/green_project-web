@@ -1,4 +1,4 @@
-import DataTable from 'react-data-table-component';
+import DataTable, { createTheme } from 'react-data-table-component';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -22,6 +22,28 @@ const BasicTable = props => {
         return <FilterComponent onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />;
     }, [filterText, resetPaginationToggle]);
 
+    createTheme('solarized', {
+        secondary: '#2aa198',
+        text: {
+            primary: '#268bd2',
+        },
+        background: {
+            default: '#',
+        },
+        context: {
+            background: '#cb4b16',
+            text: '#FFFFFF',
+        },
+        divider: {
+            default: '#073642',
+        },
+        action: {
+            button: 'rgba(0,0,0,.54)',
+            hover: 'rgba(0,0,0,.08)',
+            disabled: 'rgba(0,0,0,.12)',
+        },
+    });
+
     return (
         <DataTable
             title={props.title}
@@ -32,6 +54,7 @@ const BasicTable = props => {
             subHeader
             subHeaderComponent={subHeaderComponentMemo}
             persistTableHead
+            theme="custom"
         />
     );
 };

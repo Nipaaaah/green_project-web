@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { Form, Container } from 'react-bootstrap';
+import { Form, Container, Modal } from 'react-bootstrap';
 import { useForm } from "react-hook-form";
 import { AddTip } from '../../../services/tips.service';
+import { ResultModal } from '../../../components/ModalReturn'
 
 function AddTipPage(props) {
   const { register, handleSubmit, errors } = useForm();
   const [addError, setError] = useState('');
+  const [modalShow, setModalShow] = useState(false);
+  const [resultMessage, setResultMessage] = useState('');
 
   const onSubmit = async (formData) => {
     await AddTip(formData)
@@ -15,12 +18,26 @@ function AddTipPage(props) {
           state: { msg: "Tip was successfully added" }
         });
       }, (error) => {
-        setError(error.response.data.message)
+        displayStatus(error.response.data.msg.name)
       });
   };
 
+  const displayStatus = (msg) => {
+    setResultMessage(msg);
+    setModalShow(true);
+    setTimeout(() => {
+      setModalShow(false);
+    }, 3000);
+  }
+
   return (
     <Container fluid>
+      <ResultModal
+        msg={resultMessage}
+        show={modalShow}
+        animation={false}
+        onHide={() => setModalShow(false)}
+      />
       <Form onSubmit={handleSubmit(onSubmit)}>
         <label>
           Name :
