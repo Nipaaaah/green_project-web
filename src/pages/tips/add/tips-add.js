@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { Form, Container, Modal } from 'react-bootstrap';
+import { Form, Container, Button } from 'react-bootstrap';
 import { useForm } from "react-hook-form";
 import { AddTip } from '../../../services/tips.service';
 import { ResultModal } from '../../../components/ModalReturn'
 
 function AddTipPage(props) {
   const { register, handleSubmit, errors } = useForm();
-  const [addError, setError] = useState('');
   const [modalShow, setModalShow] = useState(false);
   const [resultMessage, setResultMessage] = useState('');
 
@@ -51,7 +50,6 @@ function AddTipPage(props) {
         {errors.desc && <span>Ce champ est requis</span>}
         <input type="submit" value="Add" />
       </Form>
-      <label>{addError}</label>
     </Container>
   )
 }

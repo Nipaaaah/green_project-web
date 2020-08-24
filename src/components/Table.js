@@ -25,22 +25,16 @@ const BasicTable = props => {
     createTheme('solarized', {
         secondary: '#2aa198',
         text: {
-            primary: '#268bd2',
+            primary: '#000000',
         },
         background: {
             default: '#',
         },
         context: {
-            background: '#cb4b16',
             text: '#FFFFFF',
         },
         divider: {
             default: '#073642',
-        },
-        action: {
-            button: 'rgba(0,0,0,.54)',
-            hover: 'rgba(0,0,0,.08)',
-            disabled: 'rgba(0,0,0,.12)',
         },
     });
 
@@ -54,7 +48,7 @@ const BasicTable = props => {
             subHeader
             subHeaderComponent={subHeaderComponentMemo}
             persistTableHead
-            theme="custom"
+            theme="solarized"
         />
     );
 };

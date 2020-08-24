@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, StyleSheet } from 'react';
 import { Row, Container, Col, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { GetTips, DeleteTip, EditTip } from '../../services/tips.service'
-import { BasicTable } from '../../components/Table'
-import { ResultModal } from '../../components/ModalReturn'
+import { GetTips, DeleteTip, EditTip } from '../../services/tips.service';
+import { BasicTable } from '../../components/Table';
+import { ResultModal } from '../../components/ModalReturn';
+import './tips.css';
 
 const Tips = props => {
   const [tipList, setTipList] = useState([]);
@@ -21,7 +22,8 @@ const Tips = props => {
             window.history.replaceState(null, null, "/");
           }
         }
-      }, 1000)
+      }
+      , 1000)
   }, [])
 
   const getAllTips = async () => {
@@ -81,6 +83,24 @@ const Tips = props => {
       });
   }
 
+  const getStatusColor = (row) => {
+    if (row.tipStatus === 1) {
+      return "success"
+    }
+    else if (row.tipStatus === 0) {
+      return "danger"
+    }
+  }
+
+  const getStatusButtonText = (row) => {
+    if (row.tipStatus === 1) {
+      return "Enabled"
+    }
+    else if (row.tipStatus === 0) {
+      return "Disabled"
+    }
+  }
+  
   const displayStatus = (msg) => {
     setResultMessage(msg);
     setModalShow(true);
@@ -107,7 +127,7 @@ const Tips = props => {
     },
     {
       name: 'Edit',
-      cell: (row) => <FontAwesomeIcon onClick={(e) => gotToEditTip(row)} icon={faEdit} />,
+      cell: (row) => <Button variant="outline-warning"><FontAwesomeIcon onClick={(e) => gotToEditTip(row)} icon={faEdit} /></Button>,
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
@@ -115,7 +135,7 @@ const Tips = props => {
     },
     {
       name: 'Delete',
-      cell: (row) => <FontAwesomeIcon icon={faTrash} onClick={(e) => del(row.id)} />,
+      cell: (row) => <Button variant="outline-danger"><FontAwesomeIcon icon={faTrash} onClick={(e) => del(row.id)} /></Button>,
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
@@ -129,7 +149,7 @@ const Tips = props => {
     },
     {
       name: 'Status',
-      cell: (row) => <Button onClick={(e) => changeStatus(row)} >Change</Button>,
+      cell: (row) => <Button variant={getStatusColor(row)} onClick={(e) => changeStatus(row)} >{getStatusButtonText(row)}</Button>,
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
@@ -160,8 +180,8 @@ const Tips = props => {
             animation={false}
             onHide={() => setModalShow(false)}
           />
-          <Button onClick={goToAddTip}><FontAwesomeIcon icon={faPlus} /> Add</Button>
           <BasicTable title="Tips List" columns={columns} array={tipList}></BasicTable>
+          <Button variant="outline-success" onClick={goToAddTip}><FontAwesomeIcon icon={faPlus} /> Add</Button>
         </Container>
       </div >
     )
