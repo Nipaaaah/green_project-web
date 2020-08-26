@@ -3,6 +3,7 @@ import { Row, Container, Col, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { GetTips, DeleteTip, EditTip } from '../../services/tips.service';
+import { getStatusButtonText, getStatusColor } from '../../services/design.service'
 import { BasicTable } from '../../components/Table';
 import { ResultModal } from '../../components/ModalReturn';
 import './tips.css';
@@ -81,24 +82,6 @@ const Tips = props => {
       }, (error) => {
         displayStatus(error.response.data.message)
       });
-  }
-
-  const getStatusColor = (row) => {
-    if (row.tipStatus === 1) {
-      return "success"
-    }
-    else if (row.tipStatus === 0) {
-      return "danger"
-    }
-  }
-
-  const getStatusButtonText = (row) => {
-    if (row.tipStatus === 1) {
-      return "Enabled"
-    }
-    else if (row.tipStatus === 0) {
-      return "Disabled"
-    }
   }
   
   const displayStatus = (msg) => {
