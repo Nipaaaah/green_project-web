@@ -2,11 +2,18 @@ import React, { useState } from 'react';
 import { Form, Container } from 'react-bootstrap';
 import { useForm } from "react-hook-form";
 import { EditTip } from '../../../services/tips.service';
+import { ResultModal } from '../../../components/ModalReturn'
 
 function EditTipPage(props) {
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit } = useForm();
   const [editError, setError] = useState('');
+  const [modalShow, setModalShow] = useState(false);
+  const [resultMessage, setResultMessage] = useState('');
 
+  /**
+   * Edit tip and redirect if ok
+   * @param {array} formData 
+   */
   const onSubmit = async (formData) => {
     await EditTip(props.location.state.data.id, formData)
       .then(() => {
@@ -15,12 +22,35 @@ function EditTipPage(props) {
           state: { msg: "Tip was successfully edited" }
         });
       }, (error) => {
-        setError(error.response.data.message)
+        if (error.response.data.msg.name !== undefined) {
+          displayStatus(error.response.data.msg.name);
+        }
+        else {
+          displayStatus(error.response.data.msg);
+        }
       });
   };
 
+  /**
+  * Display api return message to modal
+  * @param {string} msg 
+  */
+  const displayStatus = (msg) => {
+    setResultMessage(msg);
+    setModalShow(true);
+    setTimeout(() => {
+      setModalShow(false);
+    }, 3000);
+  }
+
   return (
     <Container fluid>
+      <ResultModal
+        msg={resultMessage}
+        show={modalShow}
+        animation={false}
+        onHide={() => setModalShow(false)}
+      />
       <Form onSubmit={handleSubmit(onSubmit)}>
         <label>
           Name :

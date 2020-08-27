@@ -1,28 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, StyleSheet } from 'react';
 import { Row, Container, Col, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { GetTips, DeleteTip, EditTip } from '../../services/tips.service'
-import { BasicTable } from '../../components/Table'
+import { GetTips, DeleteTip, EditTip } from '../../services/tips.service';
+import { getStatusButtonText, getStatusColor } from '../../services/design.service'
+import { BasicTable } from '../../components/Table';
+import { ResultModal } from '../../components/ModalReturn';
+import './tips.css';
 
 const Tips = props => {
   const [tipList, setTipList] = useState([]);
-  const [error, setError] = useState('');
+  const [modalShow, setModalShow] = useState(false);
+  const [resultMessage, setResultMessage] = useState('');
 
   useEffect(() => {
     setTimeout(
       () => {
         getAllTips();
+        if (props.location.state !== undefined) {
+          //Everytime there's an api call, display status
+          if (props.location.state.msg !== undefined) {
+            displayStatus(props.location.state.msg);
+            window.history.replaceState(null, null, "/"); //Empty status after display
+          }
+        }
       }
       , 1000)
   }, [])
 
+  /**
+   * Retrieve and dislay all tips
+   */
   const getAllTips = async () => {
     const res = await GetTips();
     setTipList(res.data.tips);
-    console.log(res.data.tips)
   }
 
+  /**
+   * Redirect to edit page
+   * @param {array} data 
+   */
   const gotToEditTip = async (data) => {
     props.history.push({
       pathname: '/tips/edit',
@@ -30,13 +47,18 @@ const Tips = props => {
     });
   }
 
+  /**
+   * Delete a tips
+   * @param {int} id 
+   */
   const del = async (id) => {
     await DeleteTip(id)
-      .then(() => {
-        let res = tipList.filter(list => list.id !== id);
-        setTipList(res);
+      .then((res) => {
+        let list = tipList.filter(list => list.id !== id);
+        setTipList(list);
+        displayStatus(res.data.msg);
       }, (error) => {
-        setError(error.response.data.message);
+        displayStatus(error);
       });
   }
 
@@ -44,6 +66,10 @@ const Tips = props => {
     props.history.push('tips/add');
   }
 
+  /**
+   * Update tips status
+   * @param {array} row 
+   */
   const changeStatus = async (row) => {
     let status;
     if (row.tipStatus === 1) {
@@ -68,11 +94,27 @@ const Tips = props => {
             return item;
         })
         setTipList(newTipList);
+        displayStatus(res.data.msg);
       }, (error) => {
-        setError(error.response.data.message)
+        displayStatus(error.response.data.message)
       });
   }
+  
+  /**
+   * Display api return message to modal
+   * @param {string} msg 
+   */
+  const displayStatus = (msg) => {
+    setResultMessage(msg);
+    setModalShow(true);
+    setTimeout(() => {
+      setModalShow(false);
+    }, 3000);
+  }
 
+  /**
+   * Column definition for datatable
+   */
   const columns = [
     {
       name: 'Id',
@@ -91,7 +133,7 @@ const Tips = props => {
     },
     {
       name: 'Edit',
-      cell: (row) => <FontAwesomeIcon onClick={(e) => gotToEditTip(row)} icon={faEdit} />,
+      cell: (row) => <Button variant="outline-warning"><FontAwesomeIcon onClick={(e) => gotToEditTip(row)} icon={faEdit} /></Button>,
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
@@ -99,7 +141,7 @@ const Tips = props => {
     },
     {
       name: 'Delete',
-      cell: (row) => <FontAwesomeIcon icon={faTrash} onClick={(e) => del(row.id)} />,
+      cell: (row) => <Button variant="outline-danger"><FontAwesomeIcon icon={faTrash} onClick={(e) => del(row.id)} /></Button>,
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
@@ -109,10 +151,11 @@ const Tips = props => {
       name: 'Status',
       selector: 'tipStatus',
       right: true,
+      sortable: true,
     },
     {
       name: 'Status',
-      cell: (row) => <Button onClick={(e) => changeStatus(row)} >Change</Button>,
+      cell: (row) => <Button variant={getStatusColor(row)} onClick={(e) => changeStatus(row)} >{getStatusButtonText(row)}</Button>,
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
@@ -137,9 +180,14 @@ const Tips = props => {
     return (
       <div>
         <Container fluid>
-          <Button onClick={goToAddTip}><FontAwesomeIcon icon={faPlus} /> Add</Button>
+          <ResultModal
+            msg={resultMessage}
+            show={modalShow}
+            animation={false}
+            onHide={() => setModalShow(false)}
+          />
           <BasicTable title="Tips List" columns={columns} array={tipList}></BasicTable>
-          {error}
+          <Button variant="outline-success" onClick={goToAddTip}><FontAwesomeIcon icon={faPlus} /> Add</Button>
         </Container>
       </div >
     )
