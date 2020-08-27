@@ -37,7 +37,7 @@ const BasicTable = props => {
             primary: '#000000',
         },
         background: {
-            default: '#',
+            default: '#FFFFFF',
         },
         context: {
             text: '#FFFFFF',
