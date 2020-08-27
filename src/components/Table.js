@@ -2,10 +2,19 @@ import DataTable, { createTheme } from 'react-data-table-component';
 import React from 'react';
 import styled from 'styled-components';
 
+/**
+ * Define datatable filter input
+ * @param {string} filterText
+ *  
+ */
 const FilterComponent = ({ filterText, onFilter }) => (
     <TextField id="search" type="text" placeholder="Filter By Name" value={filterText} onChange={onFilter} />
 );
 
+/**
+ * Define datatable
+ * @param {*} props 
+ */
 const BasicTable = props => {
     const [filterText, setFilterText] = React.useState('');
     const [resetPaginationToggle, setResetPaginationToggle] = React.useState(false);

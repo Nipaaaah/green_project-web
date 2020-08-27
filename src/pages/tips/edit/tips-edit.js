@@ -10,6 +10,10 @@ function EditTipPage(props) {
   const [modalShow, setModalShow] = useState(false);
   const [resultMessage, setResultMessage] = useState('');
 
+  /**
+   * Edit tip and redirect if ok
+   * @param {array} formData 
+   */
   const onSubmit = async (formData) => {
     await EditTip(props.location.state.data.id, formData)
       .then(() => {
@@ -27,6 +31,10 @@ function EditTipPage(props) {
       });
   };
 
+  /**
+  * Display api return message to modal
+  * @param {string} msg 
+  */
   const displayStatus = (msg) => {
     setResultMessage(msg);
     setModalShow(true);

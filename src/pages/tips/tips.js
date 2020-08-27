@@ -18,20 +18,28 @@ const Tips = props => {
       () => {
         getAllTips();
         if (props.location.state !== undefined) {
+          //Everytime there's an api call, display status
           if (props.location.state.msg !== undefined) {
             displayStatus(props.location.state.msg);
-            window.history.replaceState(null, null, "/");
+            window.history.replaceState(null, null, "/"); //Empty status after display
           }
         }
       }
       , 1000)
   }, [])
 
+  /**
+   * Retrieve and dislay all tips
+   */
   const getAllTips = async () => {
     const res = await GetTips();
     setTipList(res.data.tips);
   }
 
+  /**
+   * Redirect to edit page
+   * @param {array} data 
+   */
   const gotToEditTip = async (data) => {
     props.history.push({
       pathname: '/tips/edit',
@@ -39,6 +47,10 @@ const Tips = props => {
     });
   }
 
+  /**
+   * Delete a tips
+   * @param {int} id 
+   */
   const del = async (id) => {
     await DeleteTip(id)
       .then((res) => {
@@ -54,6 +66,10 @@ const Tips = props => {
     props.history.push('tips/add');
   }
 
+  /**
+   * Update tips status
+   * @param {array} row 
+   */
   const changeStatus = async (row) => {
     let status;
     if (row.tipStatus === 1) {
@@ -84,6 +100,10 @@ const Tips = props => {
       });
   }
   
+  /**
+   * Display api return message to modal
+   * @param {string} msg 
+   */
   const displayStatus = (msg) => {
     setResultMessage(msg);
     setModalShow(true);
@@ -92,6 +112,9 @@ const Tips = props => {
     }, 3000);
   }
 
+  /**
+   * Column definition for datatable
+   */
   const columns = [
     {
       name: 'Id',

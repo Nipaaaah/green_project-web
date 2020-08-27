@@ -9,6 +9,10 @@ function AddTipPage(props) {
   const [modalShow, setModalShow] = useState(false);
   const [resultMessage, setResultMessage] = useState('');
 
+  /**
+   * Add tip and redirect if ok
+   * @param {array} formData 
+   */
   const onSubmit = async (formData) => {
     await AddTip(formData)
       .then(() => {
@@ -21,6 +25,10 @@ function AddTipPage(props) {
       });
   };
 
+    /**
+   * Display api return message to modal
+   * @param {string} msg 
+   */
   const displayStatus = (msg) => {
     setResultMessage(msg);
     setModalShow(true);
