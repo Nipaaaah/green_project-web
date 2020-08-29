@@ -31,22 +31,6 @@ const BasicTable = props => {
         return <FilterComponent onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />;
     }, [filterText, resetPaginationToggle]);
 
-    createTheme('solarized', {
-        secondary: '#2aa198',
-        text: {
-            primary: '#000000',
-        },
-        background: {
-            default: '#FFFFFF',
-        },
-        context: {
-            text: '#FFFFFF',
-        },
-        divider: {
-            default: '#073642',
-        },
-    });
-
     return (
         <DataTable
             title={props.title}
@@ -57,7 +41,6 @@ const BasicTable = props => {
             subHeader
             subHeaderComponent={subHeaderComponentMemo}
             persistTableHead
-            theme="solarized"
         />
     );
 };
