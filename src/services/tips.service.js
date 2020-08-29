@@ -1,15 +1,10 @@
 import axios from '../tools/axios'
 
-const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9sb2dpbiIsImlhdCI6MTU5ODcxMDY2NywiZXhwIjoxNTk4NzE0MjY3LCJuYmYiOjE1OTg3MTA2NjcsImp0aSI6ImlRekNWQ3o2UXRIUTg1YmwiLCJzdWIiOjEsInBydiI6IjFiMmI3MzE0NzFhMjA0ZTRkYWY1MTRjYmJlYzNjZjhhNzk4OGU0YjMifQ.oK5R0Fk1qPHHn5X9DSB3Fxe992mHpjtFi6Z2gYOIDw8'
-const config = {
-  headers: { Authorization: `Bearer ${token}` }
-};
-
 /**
  * Query all tips
  */
 const GetTips = async () => {
-  let res = await axios.get("/allTips", config);
+  let res = await axios.get("/allTips");
   return res;
 }
 
@@ -18,7 +13,7 @@ const GetTips = async () => {
  * @param {int} id 
  */
 const GetTip = async (id) => {
-  let res = await axios.get(`/tip/${id}`, config);
+  let res = await axios.get(`/tip/${id}`);
   return res;
 }
 
@@ -28,7 +23,7 @@ const GetTip = async (id) => {
  * @param {array} formData 
  */
 const EditTip = async (id, formData) => {
-  let res = await axios.post(`/editTip/${id}`, formData, config);
+  let res = await axios.post(`/editTip/${id}`, formData);
   return res;
 }
 
@@ -37,7 +32,7 @@ const EditTip = async (id, formData) => {
  * @param {int} id 
  */
 const DeleteTip = async (id) => {
-  let res = await axios.get(`/deleteTip/${id}`, config);
+  let res = await axios.get(`/deleteTip/${id}`);
   return res;
 }
 
@@ -46,7 +41,7 @@ const DeleteTip = async (id) => {
  * @param {array} formData 
  */
 const AddTip = async (formData) => {
-  let res = await axios.post(`/addTip`, formData, config)
+  let res = await axios.post(`/addTip`, formData)
   return res;
 }
 

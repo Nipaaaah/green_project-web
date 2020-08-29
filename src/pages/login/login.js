@@ -1,18 +1,16 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { loginUser } from '../../services/login.service';
-import { AuthContext } from '../../contexts/AuthContext';
 
 const Login = props => {
   const [authErrors, setAuthErrors] = useState([]);
   const { register, handleSubmit, errors } = useForm();
-  let { setToken } = useContext(AuthContext);
 
   const onSubmit = async (formData) => {
     try {
       //On appelle la fonction pour se log et on stocke le token dans le Contexte lié à l'authentification
       const res = await loginUser(formData.email, formData.password);
-      setToken(res);
+      localStorage.setItem('token', res)
 
       //Redirige vers l'url '/'
       props.history.push('/');
