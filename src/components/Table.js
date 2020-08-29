@@ -41,6 +41,7 @@ const BasicTable = props => {
             subHeader
             subHeaderComponent={subHeaderComponentMemo}
             persistTableHead
+            
         />
     );
 };
