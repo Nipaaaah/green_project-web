@@ -28,7 +28,17 @@ const BasicTable = props => {
             }
         };
 
-        return <FilterComponent onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />;
+        if (props.button !== undefined) {
+            return (
+                <>
+                {props.button}
+                <FilterComponent onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+                </> 
+            );
+        }
+        else {
+            return <FilterComponent onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />;
+        }
     }, [filterText, resetPaginationToggle]);
 
     return (
@@ -41,7 +51,7 @@ const BasicTable = props => {
             subHeader
             subHeaderComponent={subHeaderComponentMemo}
             persistTableHead
-            
+
         />
     );
 };
