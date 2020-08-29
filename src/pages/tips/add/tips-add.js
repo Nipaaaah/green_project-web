@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Container, Button } from 'react-bootstrap';
+import { Form, Container } from 'react-bootstrap';
 import { useForm } from "react-hook-form";
 import { AddTip } from '../../../services/tips.service';
 import { ResultModal } from '../../../components/ModalReturn'
