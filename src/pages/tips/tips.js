@@ -2,11 +2,11 @@ import React, { useState, useEffect, StyleSheet } from 'react';
 import { Row, Container, Col, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
+import styled from 'styled-components';
 import { GetTips, DeleteTip, EditTip } from '../../services/tips.service';
 import { getStatusButtonText, getStatusColor } from '../../services/design.service'
 import { BasicTable } from '../../components/Table';
 import { ResultModal } from '../../components/ModalReturn';
-import './tips.css';
 
 const Tips = props => {
   const [tipList, setTipList] = useState([]);
@@ -99,7 +99,7 @@ const Tips = props => {
         displayStatus(error.response.data.message)
       });
   }
-  
+
   /**
    * Display api return message to modal
    * @param {string} msg 
@@ -163,6 +163,8 @@ const Tips = props => {
     },
   ];
 
+  const addButton = <Button style={{ marginRight:'1em' }} variant="outline-success" onClick={goToAddTip}><FontAwesomeIcon icon={faPlus} /> Add</Button>;
+
   if (tipList.length === 0) {
     return (
       <div>
@@ -186,8 +188,7 @@ const Tips = props => {
             animation={false}
             onHide={() => setModalShow(false)}
           />
-          <BasicTable title="Tips List" columns={columns} array={tipList}></BasicTable>
-          <Button variant="outline-success" onClick={goToAddTip}><FontAwesomeIcon icon={faPlus} /> Add</Button>
+          <BasicTable title="Tips List" columns={columns} array={tipList} button={addButton}></BasicTable>
         </Container>
       </div >
     )

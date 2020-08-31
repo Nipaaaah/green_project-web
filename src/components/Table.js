@@ -1,4 +1,4 @@
-import DataTable, { createTheme } from 'react-data-table-component';
+import DataTable from 'react-data-table-component';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -28,24 +28,18 @@ const BasicTable = props => {
             }
         };
 
-        return <FilterComponent onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />;
+        if (props.button !== undefined) {
+            return (
+                <>
+                {props.button}
+                <FilterComponent onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+                </> 
+            );
+        }
+        else {
+            return <FilterComponent onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />;
+        }
     }, [filterText, resetPaginationToggle]);
-
-    createTheme('solarized', {
-        secondary: '#2aa198',
-        text: {
-            primary: '#000000',
-        },
-        background: {
-            default: '#FFFFFF',
-        },
-        context: {
-            text: '#FFFFFF',
-        },
-        divider: {
-            default: '#073642',
-        },
-    });
 
     return (
         <DataTable
@@ -57,7 +51,7 @@ const BasicTable = props => {
             subHeader
             subHeaderComponent={subHeaderComponentMemo}
             persistTableHead
-            theme="solarized"
+
         />
     );
 };

@@ -6,7 +6,6 @@ import { ResultModal } from '../../../components/ModalReturn'
 
 function EditTipPage(props) {
   const { register, handleSubmit } = useForm();
-  const [editError, setError] = useState('');
   const [modalShow, setModalShow] = useState(false);
   const [resultMessage, setResultMessage] = useState('');
 
@@ -62,7 +61,6 @@ function EditTipPage(props) {
         </label>
         <input type="submit" value="Edit" />
       </Form>
-      <label>{editError}</label>
     </Container>
   )
 }
