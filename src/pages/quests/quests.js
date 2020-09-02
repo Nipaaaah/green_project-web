@@ -75,7 +75,7 @@ const Quests = props => {
 
   // allQuests();
 
-  const { token } = useContext(AuthContext);
+  //const { token } = useContext(AuthContext);
 
   const goToAddQuest = () => {
     props.history.push('quests/add');
@@ -86,12 +86,12 @@ const Quests = props => {
   // CODE DE VICTOR
 
   /**
-   * Update tips status
+   * Update quest status
    * @param {array} row 
    */
   const changeStatus = async (row) => {
     let status;
-    if (row.tipStatus === 1) {
+    if (row.questStatus === 1) {
       status = 0;
     }
     else {
@@ -101,18 +101,18 @@ const Quests = props => {
       id: row.id,
       name: row.name,
       desc: row.desc,
-      tipStatus: status
+      questStatus: status
     }
-    await EditTip(row.id, data)
+    await editQuest(row.id, data)
       .then((res) => {
-        let newTipList = tipList.map((item) => {
+        let newQuestList = questList.map((item) => {
           if (item.id === row.id) {
             return data;
           }
           else
             return item;
         })
-        setTipList(newTipList);
+        setQuestList(newQuestList);
         displayStatus(res.data.msg);
       }, (error) => {
         displayStatus(error.response.data.message)
@@ -223,7 +223,7 @@ const Quests = props => {
     },
     {
       name: 'Edit',
-      cell: (row) => <Button variant="outline-warning"><FontAwesomeIcon onClick={(e) => goToEditQuest(row)} icon={faEdit} /></Button>,
+      cell: (row) => <Button variant="outline-warning"><FontAwesomeIcon onClick={(e) => goToAddQuest(row)} icon={faEdit} /></Button>,
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
