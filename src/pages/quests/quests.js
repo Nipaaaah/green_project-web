@@ -1,50 +1,17 @@
-import React, { useContext, useState, useEffect, StyleSheet } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
+import React, { useState, useEffect } from 'react';
 import { Row, Container, Col, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { getAllQuests, getOneQuest, deleteQuest, addQuest, editQuest } from '../../services/quests.service';
-import { getStatusButtonText, getStatusColor } from '../../services/design.service';
+import { getAllQuests, deleteQuest, addQuest, editQuest } from '../../services/quests.service';
 import { BasicTable } from '../../components/Table';
 import { ResultModal } from '../../components/ModalReturn';
 import '../tips/tips.css';
 
-
-// async function allQuests() {
-//   console.log('yo');
-//   const response = await getAllQuests()
-//   const quests = response.data.quests;
-//   console.log(quests);
-// };
-
-// const Tips = () => {
-
-//   const [tipList, setTipList] = useState([])
-
-//   const getAllTips = async () => {
-//     const res = await GetTips();
-//     setTipList(res.data.tips);
-//   }
-
-//   useEffect(() => {
-//     setTimeout(
-//       () => {
-//         getAllTips();
-//       }
-//       , 1000)
-//   },
-//     [],
-//   )
-
-
 const Quests = props => {
-
-  //const data = [{ 'name': 'First', 'desc': 'blabla', 'expAmount': 20, 'minLevel': 2, 'timeForQuest': 'r', 'endDate': '2020' }, { 'name': 'Two', 'desc': 'blabla', 'expAmount': 20, 'minLevel': 2, 'timeForQuest': 'r', 'endDate': '2020' }, { 'name': 'Three', 'desc': 'blabla', 'expAmount': 20, 'minLevel': 2, 'timeForQuest': 'r', 'endDate': '2020' }]
 
   const [questList, setQuestList] = useState([])
   const [modalShow, setModalShow] = useState(false);
   const [resultMessage, setResultMessage] = useState('');
-
 
   const allQuests = async () => {
     const response = await getAllQuests();
@@ -56,34 +23,9 @@ const Quests = props => {
   }
   );
 
- // /!\ Le useEffect de Tips, à voir si on l'adapte pour Quest ou pas ?
-  // useEffect(() => {
-  //   setTimeout(
-  //     () => {
-  //       getAllTips();
-  //       if (props.location.state !== undefined) {
-  //         //Everytime there's an api call, display status
-  //         if (props.location.state.msg !== undefined) {
-  //           displayStatus(props.location.state.msg);
-  //           window.history.replaceState(null, null, "/"); //Empty status after display
-  //         }
-  //       }
-  //     }
-  //     , 1000)
-  // }, [])
-  
-
-  // allQuests();
-
-  //const { token } = useContext(AuthContext);
-
   const goToAddQuest = () => {
     props.history.push('quests/add');
   }
-
-
-
-  // CODE DE VICTOR
 
   /**
    * Update quest status
@@ -118,6 +60,21 @@ const Quests = props => {
         displayStatus(error.response.data.message)
       });
   }
+
+    /**
+   * Delete a quest
+   * @param {int} id 
+   */
+  const del = async (id) => {
+    await deleteQuest(id)
+      .then((res) => {
+        let list = questList.filter(list => list.id !== id);
+        setQuestList(list);
+        displayStatus(res.data.msg);
+      }, (error) => {
+        displayStatus(error);
+      });
+  }
   
   /**
    * Display api return message to modal
@@ -130,62 +87,6 @@ const Quests = props => {
       setModalShow(false);
     }, 3000);
   }
-
-  // CODE DE VICTOR - FIN
-
-
-  // CODE DU PREMIER DATATABLE
-  // return (
-  //   <div>
-  //     <Container fluid>
-  //       <Row>
-  //         <Col>Liste des quêtes</Col>
-  //         <Col>
-  //           <Button onClick={goToAddQuest}>Ajouter quête</Button>
-  //         </Col>
-  //       </Row>
-
-  //       <Row>
-  //         <Col>
-  //           <table class="table table-condensed">
-  //             <thead>
-  //               <tr>
-  //                 <th>Nom</th>
-  //                 <th>Description</th>
-  //                 <th>Date de création</th>
-  //                 <th>Deadline</th>
-  //                 <th>Durée</th>
-  //                 <th>Level min</th>
-  //                 <th>XP</th>
-  //                 <th>Statut</th>
-  //                 <th>Editer</th>
-  //                 <th>Supprimer</th>
-  //               </tr>
-  //             </thead>
-  //             <tbody>
-  //               {questList.map((d, index) => (
-  //                 <tr key={index}>
-  //                   <td>{d.name}</td>
-  //                   <td>{d.desc}</td>
-  //                   <td>{d.endDate}</td>
-  //                   <td>{d.endDate}</td>
-  //                   <td>{d.timeForQuest}</td>
-  //                   <td>{d.minLevel}</td>
-  //                   <td>{d.expAmount}</td>
-  //                   <td><Button>Activer</Button></td>
-  //                   <td><FontAwesomeIcon icon={faEdit} /></td>
-  //                   <td><FontAwesomeIcon icon={faTrash} /></td>
-  //                 </tr>
-  //               ))}
-  //             </tbody>
-  //           </table>
-  //         </Col>
-  //       </Row>
-  //     </Container>
-  //   </div>
-  // )
-
-
 
     /**
    * Column definition for datatable
@@ -268,13 +169,6 @@ const Quests = props => {
       </div >
     )
   }
-
 }
-
-
-
-
-
-
 
 export default Quests;
