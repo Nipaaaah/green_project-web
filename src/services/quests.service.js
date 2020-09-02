@@ -5,7 +5,9 @@ export const getAllQuests = async () => {
 }
 
 export const getOneQuest = async (questId) => {
-    return await axios.get("quest/" + questId);
+    const res = await axios.get("quest/" + questId);
+
+    return res.data.quest;
 }
 
 export const deleteQuest = async (questId) => {

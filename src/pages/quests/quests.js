@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Container, Col, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { getAllQuests, deleteQuest, addQuest, editQuest } from '../../services/quests.service';
+import { getAllQuests, deleteQuest, editQuest } from '../../services/quests.service';
 import { BasicTable } from '../../components/Table';
 import { ResultModal } from '../../components/ModalReturn';
 import '../tips/tips.css';
@@ -20,11 +20,18 @@ const Quests = props => {
 
   useEffect(() => {
     allQuests();
-  }
-  );
+  }, []);
 
   const goToAddQuest = () => {
     props.history.push('quests/add');
+  }
+
+  /**
+   * Redirect to edit page
+   * @param {array} data 
+   */
+  const goToEditQuest = async (id) => {
+    props.history.push(`/quests/edit/${id}`);
   }
 
   /**
@@ -61,10 +68,10 @@ const Quests = props => {
       });
   }
 
-    /**
-   * Delete a quest
-   * @param {int} id 
-   */
+  /**
+ * Delete a quest
+ * @param {int} id 
+ */
   const del = async (id) => {
     await deleteQuest(id)
       .then((res) => {
@@ -75,7 +82,7 @@ const Quests = props => {
         displayStatus(error);
       });
   }
-  
+
   /**
    * Display api return message to modal
    * @param {string} msg 
@@ -88,9 +95,9 @@ const Quests = props => {
     }, 3000);
   }
 
-    /**
-   * Column definition for datatable
-   */
+  /**
+ * Column definition for datatable
+ */
   const columns = [
     {
       name: 'Name',
@@ -124,7 +131,7 @@ const Quests = props => {
     },
     {
       name: 'Edit',
-      cell: (row) => <Button variant="outline-warning"><FontAwesomeIcon onClick={(e) => goToAddQuest(row)} icon={faEdit} /></Button>,
+      cell: (row) => <Button variant="outline-warning"><FontAwesomeIcon onClick={() => goToEditQuest(row.id)} icon={faEdit} /></Button>,
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
