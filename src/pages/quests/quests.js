@@ -20,18 +20,24 @@ const Quests = props => {
 
   useEffect(() => {
     allQuests();
+    if (props.location.state !== undefined) {
+      //Everytime there's an api call, display status
+      if (props.location.state.msg !== undefined) {
+        displayStatus(props.location.state.msg);
+        window.history.replaceState(null, null, "/"); //Empty status after display
+      }
+    }
   }, []);
 
   const goToAddQuest = () => {
     props.history.push('quests/add');
   }
 
-  /**
-   * Redirect to edit page
-   * @param {array} data 
-   */
-  const goToEditQuest = async (id) => {
-    props.history.push(`/quests/edit/${id}`);
+  const goToEditQuest = async (data) => {
+    props.history.push({
+      pathname: '/quests/edit',
+      state: { data: data }
+    });
   }
 
   /**
@@ -131,7 +137,7 @@ const Quests = props => {
     },
     {
       name: 'Edit',
-      cell: (row) => <Button variant="outline-warning"><FontAwesomeIcon onClick={() => goToEditQuest(row.id)} icon={faEdit} /></Button>,
+      cell: (row) => <Button variant="outline-warning"><FontAwesomeIcon onClick={() => goToEditQuest(row)} icon={faEdit} /></Button>,
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
@@ -139,7 +145,7 @@ const Quests = props => {
     },
     {
       name: 'Delete',
-      cell: (row) => <Button variant="outline-danger"><FontAwesomeIcon icon={faTrash} onClick={(e) => del(row.id)} /></Button>,
+      cell: (row) => <Button variant="outline-danger"><FontAwesomeIcon icon={faTrash} onClick={() => del(row.id)} /></Button>,
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,

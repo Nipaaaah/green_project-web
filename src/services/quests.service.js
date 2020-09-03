@@ -29,13 +29,6 @@ export const addQuest = async (name, desc, expAmount, minLevel, timeForQuest, en
     return res;
 }
 
-export const editQuest = async (questId, name, desc, expAmount, minLevel, timeForQuest, endDate) => {
-    const formData = new FormData();
-    formData.append('name', name);
-    formData.append('desc', desc);
-    formData.append('expAmount', expAmount);
-    formData.append('minLevel', minLevel);
-    formData.append('timeForQuest', timeForQuest);
-    formData.append('endDate', endDate);
-    return await axios.post("editQuest/" + questId, formData)
+export const editQuest = async (questId, data) => {
+    return await axios.post(`editQuest/${questId}`, data);
 }

@@ -22,6 +22,7 @@ const AddQuest = props => {
     try {
       const res = props.id ?
         await editQuest(
+          formData.id,
           formData.name,
           formData.desc,
           formData.expAmount,
@@ -54,6 +55,8 @@ const AddQuest = props => {
     }
   }
 
+  console.log(quest);
+
   return (
     <Container>
       <Row>
@@ -61,6 +64,15 @@ const AddQuest = props => {
           <div>{props.id ? 'Modifier quête' : 'Ajouter quête'}</div>
 
           <form onSubmit={handleSubmit(onSubmit)}>
+
+            {props.id &&
+              <div className="form-field">
+                <label>ID</label>
+                <input name="id" defaultValue={quest && quest.id} ref={register({ required: true })} readonly/>
+                {errors.name && <span>Ce champ est requis</span>}
+              </div>
+            }
+
             <div className="form-field">
               <label>Nom</label>
               <input name="name" maxLength="45" placeholder="Ex: Test Quest" defaultValue={quest && quest.name} ref={register({ required: true })} />

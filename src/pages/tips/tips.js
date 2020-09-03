@@ -133,7 +133,7 @@ const Tips = props => {
     },
     {
       name: 'Edit',
-      cell: (row) => <Button variant="outline-warning"><FontAwesomeIcon onClick={(e) => gotToEditTip(row)} icon={faEdit} /></Button>,
+      cell: (row) => <Button variant="outline-warning"><FontAwesomeIcon onClick={() => gotToEditTip(row)} icon={faEdit} /></Button>,
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,

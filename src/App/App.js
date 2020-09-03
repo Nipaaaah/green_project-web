@@ -33,7 +33,7 @@ function App() {
         <Route exact path="/tips" component={Tips} />
         <Route exact path="/quests" component={Quests} />
         <Route exact path="/quests/add" component={AddQuest} />
-        <Route exact path="/quests/edit/:id" component={EditQuest} />
+        <Route exact path="/quests/edit" component={EditQuest} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/tips/add" component={AddTipPage} />
         <Route exact path="/tips/edit" component={EditTipPage} />
