@@ -13,7 +13,7 @@ const Login = props => {
       localStorage.setItem('token', res)
 
       //Redirige vers l'url '/'
-      props.history.push('/');
+      window.location = "/";
     }
     catch (error) {
       if (error.response.status === 401) {

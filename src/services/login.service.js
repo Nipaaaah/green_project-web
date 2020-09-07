@@ -9,3 +9,14 @@ export const loginUser = async (email, password) => {
 
   return result.data.token;
 }
+
+export const logoutUser = async () => {
+  return await axios.post("/logout").then(localStorage.removeItem('token')).then(window.location = "/login");
+}
+
+export const isLogged = () => {
+  const res = localStorage.getItem('token') !== null ? true : false;
+  console.log(res);
+
+  return res;
+}

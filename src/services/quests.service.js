@@ -14,19 +14,8 @@ export const deleteQuest = async (questId) => {
     return await axios.get("deleteQuest/" + questId);
 }
 
-export const addQuest = async (name, desc, expAmount, minLevel, timeForQuest, endDate) => {
-    const formData = new FormData();
-    formData.append('name', name);
-    formData.append('desc', desc);
-    formData.append('expAmount', expAmount);
-    formData.append('minLevel', minLevel)
-    formData.append('timeForQuest', timeForQuest);
-    formData.append('endDate', endDate);
-
-    const res = await axios.post('/addQuest', formData);
-    console.log(res);
-
-    return res;
+export const addQuest = async (questData) => {
+    return await axios.post('/addQuest', questData);
 }
 
 export const editQuest = async (questId, data) => {

@@ -1,118 +1,92 @@
-import React, { useState, useEffect } from 'react';
-import { addQuest, editQuest, getOneQuest } from '../../../services/quests.service'
+import React, { useState } from 'react';
+import { addQuest } from '../../../services/quests.service'
+import { ResultModal } from '../../../components/ModalReturn'
 import { useForm } from "react-hook-form";
 import { Container, Col, Row } from 'react-bootstrap';
 import './quests-add.css'
 
 const AddQuest = props => {
   const { register, handleSubmit, errors } = useForm();
-  const [formErrors, setFormErrors] = useState([]);
-  const [quest, setQuest] = useState();
+  const [modalShow, setModalShow] = useState(false);
+  const [resultMessage, setResultMessage] = useState('');
 
-  useEffect(() => {
-    props.id && getQuest(props.id);
-  }, []);
-
-  const getQuest = async (id) => {
-    const quest = await getOneQuest(id);
-    setQuest(quest);
-  }
-
+  /**
+     * Add tip and redirect if ok
+     * @param {array} formData 
+     */
   const onSubmit = async (formData) => {
-    try {
-      const res = props.id ?
-        await editQuest(
-          formData.id,
-          formData.name,
-          formData.desc,
-          formData.expAmount,
-          formData.minLevel,
-          formData.timeForQuest,
-          formData.endDate
-        ) :
-        await addQuest(
-          formData.name,
-          formData.desc,
-          formData.expAmount,
-          formData.minLevel,
-          formData.timeForQuest,
-          formData.endDate
-        );
+    await addQuest(formData)
+      .then(() => {
+        props.history.push({
+          pathname: '/quests',
+          state: { msg: "Quest was successfully added" }
+        });
+      }, (error) => {
+        displayStatus(error.response.data.msg.name)
+      });
+  };
 
-      //Gestion erreurs et redirection
-      if (res.data.status === 400) {
-        setFormErrors([<p key="error_field">{Object.entries(res.data.msg)[0][1][0]}</p>])
-      } else {
-        props.history.push('/quests')
-      }
-    } catch (error) {
-      if (error.response.status === 401) {
-        setFormErrors([<p key='error_login'>Vous n'êtes pas connecté - <a href="/login">Connectez-vous</a></p>])
-      } else if (error.response.status === 500) {
-        setFormErrors([<p key='error_server'>Erreur côté serveur, nous allons régler ça !</p>])
-        console.log('Erreur serveur')
-      }
-    }
+  /**
+   * Display api return message to modal
+   * @param {string} msg 
+   */
+  const displayStatus = (msg) => {
+    setResultMessage(msg);
+    setModalShow(true);
+    setTimeout(() => {
+      setModalShow(false);
+    }, 3000);
   }
-
-  console.log(quest);
 
   return (
-    <Container>
+    <Container fluid>
       <Row>
         <Col>
-          <div>{props.id ? 'Modifier quête' : 'Ajouter quête'}</div>
-
+          <ResultModal
+            msg={resultMessage}
+            show={modalShow}
+            animation={false}
+            onHide={() => setModalShow(false)}
+          />
           <form onSubmit={handleSubmit(onSubmit)}>
-
-            {props.id &&
-              <div className="form-field">
-                <label>ID</label>
-                <input name="id" defaultValue={quest && quest.id} ref={register({ required: true })} readonly/>
-                {errors.name && <span>Ce champ est requis</span>}
-              </div>
-            }
-
             <div className="form-field">
               <label>Nom</label>
-              <input name="name" maxLength="45" placeholder="Ex: Test Quest" defaultValue={quest && quest.name} ref={register({ required: true })} />
+              <input name="name" maxLength="45" placeholder="Ex: Test Quest" ref={register({ required: true })} />
               {errors.name && <span>Ce champ est requis</span>}
             </div>
 
             <div className="form-field">
               <label>Description</label>
-              <textarea name="desc" maxLength="120" placeholder="Ex: Test Quest desc" defaultValue={quest && quest.desc} ref={register({ required: true })} />
+              <textarea name="desc" maxLength="120" placeholder="Ex: Test Quest desc" ref={register({ required: true })} />
               {errors.desc && <span>Ce champ est requis</span>}
             </div>
 
             <div className="form-field">
               <label>XP donné</label>
-              <input name="expAmount" placeholder="Ex: 10" defaultValue={quest && quest.expAmount} ref={register({ required: true })} />
+              <input name="expAmount" placeholder="Ex: 10" ref={register({ required: true })} />
               {errors.expAmount && <span>Ce champ est requis</span>}
             </div>
 
             <div className="form-field">
               <label>Niveau minimum</label>
-              <input name="minLevel" placeholder="Ex: 1" defaultValue={quest && quest.minLevel} ref={register({ required: true })} />
+              <input name="minLevel" placeholder="Ex: 1" ref={register({ required: true })} />
               {errors.minLevel && <span>Ce champ est requis</span>}
             </div>
 
             <div className="form-field">
               <label>Temps de réalisation</label>
-              <input name="timeForQuest" placeholder="Ex: 100000" defaultValue={quest && quest.timeForQuest} ref={register({ required: true })} />
+              <input name="timeForQuest" placeholder="Ex: 100000" ref={register({ required: true })} />
               {errors.timeForQuest && <span>Ce champ est requis</span>}
             </div>
 
             <div className="form-field">
               <label>Date de fin</label>
-              <input name="endDate" placeholder="Ex: 2030-07-25" defaultValue={quest && quest.endDate} ref={register({ required: true })} />
+              <input name="endDate" placeholder="Ex: 2030-07-25" ref={register({ required: true })} />
               {errors.endDate && <span>Ce champ est requis</span>}
             </div>
 
             <input type="submit" />
           </form>
-
-          {formErrors && formErrors}
         </Col>
       </Row>
     </Container>

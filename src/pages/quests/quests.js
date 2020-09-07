@@ -3,6 +3,7 @@ import { Row, Container, Col, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { getAllQuests, deleteQuest, editQuest } from '../../services/quests.service';
+import { getStatusButtonText, getStatusColor } from '../../services/design.service'
 import { BasicTable } from '../../components/Table';
 import { ResultModal } from '../../components/ModalReturn';
 import '../tips/tips.css';
@@ -19,13 +20,17 @@ const Quests = props => {
   }
 
   useEffect(() => {
-    allQuests();
-    if (props.location.state !== undefined) {
-      //Everytime there's an api call, display status
-      if (props.location.state.msg !== undefined) {
-        displayStatus(props.location.state.msg);
-        window.history.replaceState(null, null, "/"); //Empty status after display
+    if (localStorage.getItem('token') !== null) {
+      allQuests();
+      if (props.location.state !== undefined) {
+        //Everytime there's an api call, display status
+        if (props.location.state.msg !== undefined) {
+          displayStatus(props.location.state.msg);
+          window.history.replaceState(null, null, "/"); //Empty status after display
+        }
       }
+    } else {
+      window.location = "/login"
     }
   }, []);
 
@@ -56,6 +61,10 @@ const Quests = props => {
       id: row.id,
       name: row.name,
       desc: row.desc,
+      expAmount: row.expAmount,
+      minLevel: row.minLevel,
+      timeForQuest: row.timeForQuest,
+      endDate: row.endDate,
       questStatus: status
     }
     await editQuest(row.id, data)
@@ -106,34 +115,39 @@ const Quests = props => {
  */
   const columns = [
     {
+      name: 'ID',
+      selector: 'id',
+      sortable: true
+    },
+    {
       name: 'Name',
       selector: 'name',
-      sortable: true,
+      sortable: true
     },
     {
       name: 'Description',
       selector: 'desc',
-      sortable: true,
+      sortable: true
     },
     {
       name: 'End Date',
       selector: 'endDate',
-      sortable: true,
+      sortable: true
     },
     {
       name: 'Time for quest',
       selector: 'timeForQuest',
-      sortable: true,
+      sortable: true
     },
     {
       name: 'Minimum Level',
       selector: 'minLevel',
-      sortable: true,
+      sortable: true
     },
     {
       name: 'XP',
       selector: 'expAmount',
-      sortable: true,
+      sortable: true
     },
     {
       name: 'Edit',
@@ -141,7 +155,7 @@ const Quests = props => {
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
-      right: true,
+      right: true
     },
     {
       name: 'Delete',
@@ -149,8 +163,22 @@ const Quests = props => {
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
-      right: true,
+      right: true
     },
+    {
+      name: 'Status',
+      selector: 'questStatus',
+      right: true,
+      sortable: true,
+    },
+    {
+      name: 'Status',
+      cell: (row) => <Button variant={getStatusColor(row)} onClick={() => changeStatus(row)} >{getStatusButtonText(row)}</Button>,
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
+      right: true,
+    }
   ];
 
   if (questList.length === 0) {

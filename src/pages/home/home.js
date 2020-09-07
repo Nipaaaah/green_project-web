@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Row, Container, Col } from 'react-bootstrap';
 
 function Home() {
+
+  useEffect(() => {
+    if (localStorage.getItem('token') === null) {
+      window.location = "/login"
+    }
+  })
 
   return (
     <div>
