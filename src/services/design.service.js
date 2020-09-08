@@ -3,10 +3,10 @@
  * @param {array} row 
  */
 const getStatusColor = (row) => {
-  if (row.tipStatus === 1) {
+  if (row.tipStatus || row.questStatus === 1) {
     return "success"
   }
-  else if (row.tipStatus === 0) {
+  else if (row.tipStatus || row.questStatus === 0) {
     return "danger"
   }
 }
@@ -16,10 +16,10 @@ const getStatusColor = (row) => {
  * @param {array} row 
  */
 const getStatusButtonText = (row) => {
-  if (row.tipStatus === 1) {
+  if (row.tipStatus || row.questStatus === 1) {
     return "Enabled"
   }
-  else if (row.tipStatus === 0) {
+  else if (row.tipStatus || row.questStatus === 0) {
     return "Disabled"
   }
 }

@@ -5,31 +5,19 @@ export const getAllQuests = async () => {
 }
 
 export const getOneQuest = async (questId) => {
-    return await axios.get("quest/" + questId);
+    const res = await axios.get("quest/" + questId);
+
+    return res.data.quest;
 }
 
 export const deleteQuest = async (questId) => {
     return await axios.get("deleteQuest/" + questId);
 }
 
-export const addQuest = async (name, desc, expAmount, minLevel, timeForQuest, endDate) => {
-    const formData = new FormData();
-    formData.append('name', name);
-    formData.append('desc', desc);
-    formData.append('expAmount', expAmount);
-    formData.append('minLevel', minLevel);
-    formData.append('timeForQuest', timeForQuest);
-    formData.append('endDate', endDate);
-    return await axios.post("addQuest", formData)
+export const addQuest = async (questData) => {
+    return await axios.post('/addQuest', questData);
 }
 
-export const editQuest = async (questId, name, desc, expAmount, minLevel, timeForQuest, endDate) => {
-    const formData = new FormData();
-    formData.append('name', name);
-    formData.append('desc', desc);
-    formData.append('expAmount', expAmount);
-    formData.append('minLevel', minLevel);
-    formData.append('timeForQuest', timeForQuest);
-    formData.append('endDate', endDate);
-    return await axios.post("editQuest/" + questId, formData)
+export const editQuest = async (questId, data) => {
+    return await axios.post(`editQuest/${questId}`, data);
 }

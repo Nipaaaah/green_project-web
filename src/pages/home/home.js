@@ -1,9 +1,13 @@
-import React, { useContext } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
+import React, { useEffect } from 'react';
 import { Row, Container, Col } from 'react-bootstrap';
 
 function Home() {
-  const { token } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (localStorage.getItem('token') === null) {
+      window.location = "/login"
+    }
+  })
 
   return (
     <div>

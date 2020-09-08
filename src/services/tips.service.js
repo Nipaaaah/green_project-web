@@ -4,8 +4,7 @@ import axios from '../tools/axios'
  * Query all tips
  */
 const GetTips = async () => {
-  let res = await axios.get("/allTips");
-  return res;
+  return await axios.get("/allTips");
 }
 
 /**
@@ -13,8 +12,7 @@ const GetTips = async () => {
  * @param {int} id 
  */
 const GetTip = async (id) => {
-  let res = await axios.get(`/tip/${id}`);
-  return res;
+  return await axios.get(`/tip/${id}`);
 }
 
 /**
@@ -23,8 +21,7 @@ const GetTip = async (id) => {
  * @param {array} formData 
  */
 const EditTip = async (id, formData) => {
-  let res = await axios.post(`/editTip/${id}`, formData);
-  return res;
+  return await axios.post(`/editTip/${id}`, formData);
 }
 
 /**
@@ -32,8 +29,7 @@ const EditTip = async (id, formData) => {
  * @param {int} id 
  */
 const DeleteTip = async (id) => {
-  let res = await axios.get(`/deleteTip/${id}`);
-  return res;
+  return await axios.get(`/deleteTip/${id}`);
 }
 
 /**
@@ -41,8 +37,7 @@ const DeleteTip = async (id) => {
  * @param {array} formData 
  */
 const AddTip = async (formData) => {
-  let res = await axios.post(`/addTip`, formData)
-  return res;
+  return await axios.post(`/addTip`, formData)
 }
 
 export {

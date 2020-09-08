@@ -1,8 +1,7 @@
-import React, { useState, useEffect, StyleSheet } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Container, Col, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
-import styled from 'styled-components';
 import { GetTips, DeleteTip, EditTip } from '../../services/tips.service';
 import { getStatusButtonText, getStatusColor } from '../../services/design.service'
 import { BasicTable } from '../../components/Table';
@@ -16,13 +15,17 @@ const Tips = props => {
   useEffect(() => {
     setTimeout(
       () => {
-        getAllTips();
-        if (props.location.state !== undefined) {
-          //Everytime there's an api call, display status
-          if (props.location.state.msg !== undefined) {
-            displayStatus(props.location.state.msg);
-            window.history.replaceState(null, null, "/"); //Empty status after display
+        if (localStorage.getItem('token') !== null) {
+          getAllTips();
+          if (props.location.state !== undefined) {
+            //Everytime there's an api call, display status
+            if (props.location.state.msg !== undefined) {
+              displayStatus(props.location.state.msg);
+              window.history.replaceState(null, null, "/"); //Empty status after display
+            }
           }
+        } else {
+          window.location = "/login"
         }
       }
       , 1000)
@@ -133,7 +136,7 @@ const Tips = props => {
     },
     {
       name: 'Edit',
-      cell: (row) => <Button variant="outline-warning"><FontAwesomeIcon onClick={(e) => gotToEditTip(row)} icon={faEdit} /></Button>,
+      cell: (row) => <Button variant="outline-warning"><FontAwesomeIcon onClick={() => gotToEditTip(row)} icon={faEdit} /></Button>,
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
@@ -163,7 +166,7 @@ const Tips = props => {
     },
   ];
 
-  const addButton = <Button style={{ marginRight:'1em' }} variant="outline-success" onClick={goToAddTip}><FontAwesomeIcon icon={faPlus} /> Add</Button>;
+  const addButton = <Button style={{ marginRight: '1em' }} variant="outline-success" onClick={goToAddTip}><FontAwesomeIcon icon={faPlus} /> Add</Button>;
 
   if (tipList.length === 0) {
     return (
