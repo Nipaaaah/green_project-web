@@ -173,7 +173,7 @@ const Quests = props => {
     },
     {
       name: 'Status',
-      cell: (row) => <Button variant={getStatusColor(row)} onClick={() => changeStatus(row)} >{getStatusButtonText(row)}</Button>,
+      cell: (row) => <Button variant={getStatusColor(row, "questStatus")} onClick={() => changeStatus(row)} >{getStatusButtonText(row, "questStatus")}</Button>,
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,

@@ -158,7 +158,7 @@ const Tips = props => {
     },
     {
       name: 'Status',
-      cell: (row) => <Button variant={getStatusColor(row)} onClick={(e) => changeStatus(row)} >{getStatusButtonText(row)}</Button>,
+      cell: (row) => <Button variant={getStatusColor(row, "tipStatus")} onClick={(e) => changeStatus(row)} >{getStatusButtonText(row, "tipStatus")}</Button>,
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
