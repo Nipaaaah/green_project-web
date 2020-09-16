@@ -16,7 +16,5 @@ export const logoutUser = async () => {
 
 export const isLogged = () => {
   const res = localStorage.getItem('token') !== null ? true : false;
-  console.log(res);
-
   return res;
 }
