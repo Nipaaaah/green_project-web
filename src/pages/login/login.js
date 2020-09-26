@@ -10,12 +10,15 @@ const Login = props => {
 
   const onSubmit = async (formData) => {
     try {
-      //On appelle la fonction pour se log et on stocke le token dans le Contexte lié à l'authentification
+      //On appelle la fonction pour se log
       const res = await loginUser(formData.email, formData.password);
+      //On check si l'utilisateur a l'authorisation
       const isAdmin = await checkRole(res);
+      //Si non on renvoie un exception
       if(isAdmin !== true){
         throw new Error(msgBadCredentials);
       }
+      //Si oui on stocke le token dans le Contexte lié à l'authentification
       localStorage.setItem('token', res)
       //Redirige vers l'url '/'
       window.location = "/";
