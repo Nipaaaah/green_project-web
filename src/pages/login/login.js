@@ -6,22 +6,25 @@ import {checkRole} from "../../services/checkRole.service";
 const Login = props => {
   const [authErrors, setAuthErrors] = useState([]);
   const { register, handleSubmit, errors } = useForm();
+  const msgBadCredentials  = 'Identifiants incorrects';
 
   const onSubmit = async (formData) => {
     try {
       //On appelle la fonction pour se log et on stocke le token dans le Contexte lié à l'authentification
       const res = await loginUser(formData.email, formData.password);
       const isAdmin = await checkRole(res);
-      if(isAdmin){
-        localStorage.setItem('token', res)
+      if(isAdmin !== true){
+        throw new Error(msgBadCredentials);
       }
+      localStorage.setItem('token', res)
       //Redirige vers l'url '/'
       window.location = "/";
     }
     catch (error) {
-      console.log(error);
-      if (error.response.status === 401) {
-        setAuthErrors(['Identifiants incorrects'])
+      if (error.response && error.response.status === 401) {
+        setAuthErrors([msgBadCredentials])
+      }else{
+        setAuthErrors([error.message])
       }
     }
   };
