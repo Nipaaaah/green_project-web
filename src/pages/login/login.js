@@ -14,8 +14,9 @@ const Login = props => {
       const res = await loginUser(formData.email, formData.password);
       //On check si l'utilisateur a l'authorisation
       const isAdmin = await checkRole(res);
+      const response = JSON.parse(isAdmin.request.response);
       //Si non on renvoie un exception
-      if(isAdmin !== true){
+      if(response.status !== 200){
         throw new Error(msgBadCredentials);
       }
       //Si oui on stocke le token dans le Contexte lié à l'authentification
