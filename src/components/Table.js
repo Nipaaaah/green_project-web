@@ -20,6 +20,8 @@ const BasicTable = props => {
     const [resetPaginationToggle, setResetPaginationToggle] = React.useState(false);
     const filteredItems = props.array.filter(item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase()));
 
+    console.log(props.array)
+
     const subHeaderComponentMemo = React.useMemo(() => {
         const handleClear = () => {
             if (filterText) {
@@ -45,7 +47,7 @@ const BasicTable = props => {
         <DataTable
             title={props.title}
             columns={props.columns}
-            data={filteredItems}
+            data={props.array}
             pagination
             paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
             subHeader

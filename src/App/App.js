@@ -4,6 +4,7 @@ import { Navbar, Nav, Button } from 'react-bootstrap';
 import Home from '../pages/home/home';
 import Login from '../pages/login/login'
 import Tips from '../pages/tips/tips';
+import Users from '../pages/users/users';
 import Quests from '../pages/quests/quests';
 import AddQuest from '../pages/quests/add/quests-add';
 import EditQuest from '../pages/quests/edit/quests-edit';
@@ -21,6 +22,7 @@ function App() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/users">Users</Nav.Link>
             <Nav.Link href="/tips">Tips</Nav.Link>
             <Nav.Link href="/quests">Quests</Nav.Link>
             {isLogged() ?
@@ -40,6 +42,7 @@ function App() {
       <BrowserRouter>
         <Route exact path="/login" component={Login} />
         <Route exact path="/" component={Home} />
+        <Route exact path="/users" component={Users} />
         <Route exact path="/tips" component={Tips} />
         <Route exact path="/quests" component={Quests} />
         <Route exact path="/quests/add" component={AddQuest} />
