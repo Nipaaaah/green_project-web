@@ -25,14 +25,17 @@ function App() {
             <Nav.Link href="/users">Users</Nav.Link>
             <Nav.Link href="/tips">Tips</Nav.Link>
             <Nav.Link href="/quests">Quests</Nav.Link>
+          </Nav>
+
+          <Nav className="ml-auto">
             {isLogged() ?
-              <Navbar.Collapse className="justify-content-end">
-                <Navbar.Text >Logged in</Navbar.Text>
+              <Navbar.Collapse>
+                <Navbar.Text className="log-status">Logged in</Navbar.Text>
                 <Button onClick={logoutUser}>Logout</Button>
               </Navbar.Collapse>
               :
-              <Navbar.Collapse class="justify-content-end">
-                <Navbar.Text >Unlogged</Navbar.Text>
+              <Navbar.Collapse>
+                <Navbar.Text className="log-status">Unlogged</Navbar.Text>
               </Navbar.Collapse>
             }
           </Nav>

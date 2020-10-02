@@ -37,8 +37,6 @@
   }
 }
 
-.login-field{
-  float: right;
-  display: flex;
-  justify-content: space-around;
+.log-status{
+  margin-right: 8px;
 }

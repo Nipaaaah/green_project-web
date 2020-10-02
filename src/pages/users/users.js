@@ -6,7 +6,7 @@ import { GetTips, DeleteTip, EditTip } from '../../services/tips.service';
 import { getStatusButtonText, getStatusColor } from '../../services/design.service'
 import { BasicTable } from '../../components/Table';
 import { ResultModal } from '../../components/ModalReturn';
-import { GetUsers } from '../../services/users.service';
+import { EditUser, GetUsers } from '../../services/users.service';
 
 const Users = props => {
     const [userList, setUserList] = useState([]);
@@ -42,54 +42,37 @@ const Users = props => {
         setUserList(res.data.users);
     }
 
-    // /**
-    //  * Delete a tips
-    //  * @param {int} id 
-    //  */
-    // const del = async (id) => {
-    //     await DeleteTip(id)
-    //         .then((res) => {
-    //             let list = tipList.filter(list => list.id !== id);
-    //             setTipList(list);
-    //             displayStatus(res.data.msg);
-    //         }, (error) => {
-    //             displayStatus(error);
-    //         });
-    // }
-
-    // /**
-    //  * Update tips status
-    //  * @param {array} row 
-    //  */
-    // const changeStatus = async (row) => {
-    //     let status;
-    //     if (row.userStatus === 1) {
-    //         status = 0;
-    //     }
-    //     else {
-    //         status = 1;
-    //     }
-    //     let data = {
-    //         id: row.id,
-    //         name: row.name,
-    //         desc: row.desc,
-    //         tipStatus: status
-    //     }
-    //     await EditTip(row.id, data)
-    //         .then((res) => {
-    //             let newTipList = tipList.map((item) => {
-    //                 if (item.id === row.id) {
-    //                     return data;
-    //                 }
-    //                 else
-    //                     return item;
-    //             })
-    //             setTipList(newTipList);
-    //             displayStatus(res.data.msg);
-    //         }, (error) => {
-    //             displayStatus(error.response.data.message)
-    //         });
-    // }
+    /**
+     * Update user status
+     * @param {array} row 
+     */
+    const changeStatus = async (row) => {
+        let status;
+        if (row.userStatus === 1) {
+            status = 0;
+        }
+        else {
+            status = 1;
+        }
+        let data = {
+            userStatus: status, 
+        }
+        await EditUser(row.id, data)
+            .then((res) => {
+                let newUserList = userList.map((item) => {
+                    if (item.id === row.id) {
+                        return data;
+                    }
+                    else
+                        return item;
+                })
+                setUserList(newUserList);
+                displayStatus(res.data.msg);
+            }, (error) => {
+                console.log(error.response.data)
+                displayStatus(error.response.data.message)
+            });
+    }
 
     /**
      * Display api return message to modal
@@ -173,14 +156,6 @@ const Users = props => {
             sortable: true,
         },
         {
-            name: 'Delete',
-            // cell: (row) => <Button variant="outline-danger"><FontAwesomeIcon icon={faTrash} onClick={(e) => del(row.id)} /></Button>,
-            ignoreRowClick: true,
-            allowOverflow: true,
-            button: true,
-            right: true,
-        },
-        {
             name: 'Status',
             selector: 'userStatus',
             right: true,
@@ -188,7 +163,7 @@ const Users = props => {
         },
         {
             name: 'Status',
-            // cell: (row) => <Button variant={getStatusColor(row, "userStatus")} onClick={(e) => changeStatus(row)} >{getStatusButtonText(row, "userStatus")}</Button>,
+            cell: (row) => <Button variant={getStatusColor(row, "userStatus")} onClick={(e) => changeStatus(row)} >{getStatusButtonText(row, "userStatus")}</Button>,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
