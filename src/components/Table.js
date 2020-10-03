@@ -18,9 +18,7 @@ const FilterComponent = ({ filterText, onFilter }) => (
 const BasicTable = props => {
     const [filterText, setFilterText] = React.useState('');
     const [resetPaginationToggle, setResetPaginationToggle] = React.useState(false);
-    const filteredItems = props.array.filter(item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase()));
-
-    console.log(props.array)
+    const filteredItems = props.array.filter(item => item[props.nameToFilter] && item[props.nameToFilter].toLowerCase().includes(filterText.toLowerCase()));
 
     const subHeaderComponentMemo = React.useMemo(() => {
         const handleClear = () => {
@@ -47,7 +45,7 @@ const BasicTable = props => {
         <DataTable
             title={props.title}
             columns={props.columns}
-            data={props.array}
+            data={filteredItems}
             pagination
             paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
             subHeader

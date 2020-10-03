@@ -196,7 +196,7 @@ const Users = props => {
                         animation={false}
                         onHide={() => setModalShow(false)}
                     />
-                    <BasicTable title="Users List" columns={columns} array={userList}></BasicTable>
+                    <BasicTable title="Users List" columns={columns} array={userList} nameToFilter="firstName"></BasicTable>
                 </Container>
             </div >
         )
