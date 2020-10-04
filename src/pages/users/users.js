@@ -1,19 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Container, Col, Button } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { GetTips, DeleteTip, EditTip } from '../../services/tips.service';
+import { EditUser, GetUsers } from '../../services/users.service';
 import { getStatusButtonText, getStatusColor } from '../../services/design.service'
 import { BasicTable } from '../../components/Table';
 import { ResultModal } from '../../components/ModalReturn';
-import { EditUser, GetUsers } from '../../services/users.service';
+import { Row, Container, Col, Button } from 'react-bootstrap';
 
 const Users = props => {
     const [userList, setUserList] = useState([]);
     const [modalShow, setModalShow] = useState(false);
     const [resultMessage, setResultMessage] = useState('');
-
-    console.log(userList);
 
     useEffect(() => {
         setTimeout(
@@ -35,7 +30,7 @@ const Users = props => {
     }, [])
 
     /**
-     * Retrieve and dislay all tips
+     * Retrieve and dislay all users
      */
     const getAllUsers = async () => {
         const res = await GetUsers();

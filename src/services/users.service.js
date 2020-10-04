@@ -1,14 +1,14 @@
 import axios from '../tools/axios'
 
 /**
- * Query all tips
+ * Query all users
  */
 const GetUsers = async () => {
     return await axios.get("/allUser");
 }
 
 /**
- * Edit a tip
+ * Edit an user
  * @param {int} id 
  * @param {array} formData 
  */
