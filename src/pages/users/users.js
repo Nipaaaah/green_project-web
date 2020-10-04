@@ -53,15 +53,34 @@ const Users = props => {
         }
         else {
             status = 1;
+        };
+
+        let dataToEdit = {
+            userStatus: status,
         }
-        let data = {
-            userStatus: status, 
-        }
-        await EditUser(row.id, data)
+
+        let newItemData = {
+            id: row.id,
+            firstName: row.firstName,
+            lastName: row.lastName,
+            email: row.email,
+            alias: row.alias,
+            level: row.level,
+            exp: row.exp,
+            address: row.address,
+            city: row.city,
+            postalCode: row.postalCode,
+            phone: row.phone,
+            birthday: row.birthday,
+            sexe: row.minsexeLevel,
+            userStatus: status
+        };
+
+        await EditUser(row.id, dataToEdit)
             .then((res) => {
                 let newUserList = userList.map((item) => {
                     if (item.id === row.id) {
-                        return data;
+                        return newItemData;
                     }
                     else
                         return item;
@@ -171,8 +190,6 @@ const Users = props => {
         },
     ];
 
-    // const addButton = <Button style={{ marginRight: '1em' }} variant="outline-success" onClick={goToAddTip}><FontAwesomeIcon icon={faPlus} /> Add</Button>;
-
     if (userList.length === 0) {
         return (
             <div>
@@ -196,7 +213,7 @@ const Users = props => {
                         animation={false}
                         onHide={() => setModalShow(false)}
                     />
-                    <BasicTable title="Users List" columns={columns} array={userList} nameToFilter="firstName"></BasicTable>
+                    <BasicTable title="Users List" columns={columns} array={userList} nameToFilter="firstName" />
                 </Container>
             </div >
         )

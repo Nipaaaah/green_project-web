@@ -181,6 +181,8 @@ const Quests = props => {
     }
   ];
 
+  const addButton = <Button style={{ marginRight: '1em' }} variant="outline-success" onClick={goToAddQuest}><FontAwesomeIcon icon={faPlus} /> Add</Button>;
+
   if (questList.length === 0) {
     return (
       <div>
@@ -204,8 +206,7 @@ const Quests = props => {
             animation={false}
             onHide={() => setModalShow(false)}
           />
-          <BasicTable title="Quest List" columns={columns} array={questList}></BasicTable>
-          <Button variant="outline-success" onClick={goToAddQuest}><FontAwesomeIcon icon={faPlus} /> Add</Button>
+          <BasicTable title="Quest List" columns={columns} array={questList} nameToFilter="name" button={addButton}></BasicTable>
         </Container>
       </div >
     )
