@@ -18,7 +18,7 @@ const FilterComponent = ({ filterText, onFilter }) => (
 const BasicTable = props => {
     const [filterText, setFilterText] = React.useState('');
     const [resetPaginationToggle, setResetPaginationToggle] = React.useState(false);
-    const filteredItems = props.array.filter(item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase()));
+    const filteredItems = props.array.filter(item => item[props.nameToFilter] && item[props.nameToFilter].toLowerCase().includes(filterText.toLowerCase()));
 
     const subHeaderComponentMemo = React.useMemo(() => {
         const handleClear = () => {

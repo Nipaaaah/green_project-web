@@ -4,6 +4,7 @@ import { Navbar, Nav, Button } from 'react-bootstrap';
 import Home from '../pages/home/home';
 import Login from '../pages/login/login'
 import Tips from '../pages/tips/tips';
+import Users from '../pages/users/users';
 import Quests from '../pages/quests/quests';
 import AddQuest from '../pages/quests/add/quests-add';
 import EditQuest from '../pages/quests/edit/quests-edit';
@@ -21,16 +22,20 @@ function App() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/users">Users</Nav.Link>
             <Nav.Link href="/tips">Tips</Nav.Link>
             <Nav.Link href="/quests">Quests</Nav.Link>
+          </Nav>
+
+          <Nav className="ml-auto">
             {isLogged() ?
-              <Navbar.Collapse className="justify-content-end">
-                <Navbar.Text >Logged in</Navbar.Text>
+              <Navbar.Collapse>
+                <Navbar.Text className="log-status">Logged in</Navbar.Text>
                 <Button onClick={logoutUser}>Logout</Button>
               </Navbar.Collapse>
               :
-              <Navbar.Collapse class="justify-content-end">
-                <Navbar.Text >Unlogged</Navbar.Text>
+              <Navbar.Collapse>
+                <Navbar.Text className="log-status">Unlogged</Navbar.Text>
               </Navbar.Collapse>
             }
           </Nav>
@@ -40,6 +45,7 @@ function App() {
       <BrowserRouter>
         <Route exact path="/login" component={Login} />
         <Route exact path="/" component={Home} />
+        <Route exact path="/users" component={Users} />
         <Route exact path="/tips" component={Tips} />
         <Route exact path="/quests" component={Quests} />
         <Route exact path="/quests/add" component={AddQuest} />

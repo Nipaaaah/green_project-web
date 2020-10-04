@@ -191,7 +191,7 @@ const Tips = props => {
             animation={false}
             onHide={() => setModalShow(false)}
           />
-          <BasicTable title="Tips List" columns={columns} array={tipList} button={addButton}></BasicTable>
+          <BasicTable title="Tips List" columns={columns} array={tipList} button={addButton} nameToFilter="name" />
         </Container>
       </div >
     )
