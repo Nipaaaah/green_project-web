@@ -7,6 +7,7 @@ import { getStatusButtonText, getStatusColor } from '../../services/design.servi
 import { BasicTable } from '../../components/Table';
 import { ResultModal } from '../../components/ModalReturn';
 import { actualDate, isTokenValid, tokenDate } from '../../services/token.service';
+import { logoutUser } from '../../services/login.service';
 
 const Tips = props => {
   const [tipList, setTipList] = useState([]);
@@ -26,6 +27,7 @@ const Tips = props => {
             }
           }
         } else {
+          !isTokenValid(actualDate, tokenDate) && logoutUser();
           window.location = "/login"
         }
       }

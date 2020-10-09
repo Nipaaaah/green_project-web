@@ -5,10 +5,10 @@ import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { getAllQuests, deleteQuest, editQuest } from '../../services/quests.service';
 import { getStatusButtonText, getStatusColor } from '../../services/design.service'
 import { actualDate, isTokenValid, tokenDate } from '../../services/token.service';
-
 import { BasicTable } from '../../components/Table';
 import { ResultModal } from '../../components/ModalReturn';
 import '../tips/tips.css';
+import { logoutUser } from '../../services/login.service';
 
 const Quests = props => {
 
@@ -32,6 +32,7 @@ const Quests = props => {
         }
       }
     } else {
+      !isTokenValid(actualDate, tokenDate) && logoutUser();
       window.location = "/login"
     }
   }, []);

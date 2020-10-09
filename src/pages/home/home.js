@@ -4,7 +4,7 @@ import { actualDate, isTokenValid, tokenDate } from '../../services/token.servic
 
 function Home() {
   useEffect(() => {
-    if (localStorage.getItem('token') === null && isTokenValid(actualDate, tokenDate)) {
+    if (localStorage.getItem('token') === null && !isTokenValid(actualDate, tokenDate)) {
       window.location = "/login"
     }
   })

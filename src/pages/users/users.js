@@ -5,6 +5,7 @@ import { actualDate, isTokenValid, tokenDate } from '../../services/token.servic
 import { BasicTable } from '../../components/Table';
 import { ResultModal } from '../../components/ModalReturn';
 import { Row, Container, Col, Button } from 'react-bootstrap';
+import { logoutUser } from '../../services/login.service';
 
 const Users = props => {
     const [userList, setUserList] = useState([]);
@@ -24,6 +25,7 @@ const Users = props => {
                         }
                     }
                 } else {
+                    !isTokenValid(actualDate, tokenDate) && logoutUser();
                     window.location = "/login"
                 }
             }
