@@ -6,6 +6,7 @@ import { GetTips, DeleteTip, EditTip } from '../../services/tips.service';
 import { getStatusButtonText, getStatusColor } from '../../services/design.service'
 import { BasicTable } from '../../components/Table';
 import { ResultModal } from '../../components/ModalReturn';
+import { actualDate, isTokenValid, tokenDate } from '../../services/token.service';
 
 const Tips = props => {
   const [tipList, setTipList] = useState([]);
@@ -15,7 +16,7 @@ const Tips = props => {
   useEffect(() => {
     setTimeout(
       () => {
-        if (localStorage.getItem('token') !== null) {
+        if (localStorage.getItem('token') !== null && isTokenValid(actualDate, tokenDate)) {
           getAllTips();
           if (props.location.state !== undefined) {
             //Everytime there's an api call, display status

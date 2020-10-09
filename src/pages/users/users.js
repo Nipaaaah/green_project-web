@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { EditUser, GetUsers } from '../../services/users.service';
 import { getStatusButtonText, getStatusColor } from '../../services/design.service'
+import { actualDate, isTokenValid, tokenDate } from '../../services/token.service';
 import { BasicTable } from '../../components/Table';
 import { ResultModal } from '../../components/ModalReturn';
 import { Row, Container, Col, Button } from 'react-bootstrap';
@@ -13,7 +14,7 @@ const Users = props => {
     useEffect(() => {
         setTimeout(
             () => {
-                if (localStorage.getItem('token') !== null) {
+                if (localStorage.getItem('token') !== null && isTokenValid(actualDate, tokenDate)) {
                     getAllUsers();
                     if (props.location.state !== undefined) {
                         //Everytime there's an api call, display status
