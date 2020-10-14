@@ -70,7 +70,7 @@ const Users = props => {
             postalCode: row.postalCode,
             phone: row.phone,
             birthday: row.birthday,
-            sexe: row.minsexeLevel,
+            sexe: row.sexe,
             userStatus: status
         };
 
